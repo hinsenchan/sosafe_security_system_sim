@@ -8,7 +8,7 @@ package View;
 
 /**
  *
- * @author fattymcphatfat
+ * @author hinsenchan
  */
 public class SimControlPanel extends javax.swing.JPanel {
 

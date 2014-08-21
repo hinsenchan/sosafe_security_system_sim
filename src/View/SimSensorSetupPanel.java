@@ -6,11 +6,14 @@
 
 package View;
 
+import Controller.SecuritySimController;
+
 /**
  *
- * @author fattymcphatfat
+ * @author hinsenchan
  */
 public class SimSensorSetupPanel extends javax.swing.JPanel {
+    private SecuritySimController securitySimController;
 
     /**
      * Creates new form SimSensorSetupPanel
@@ -40,14 +43,11 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
         roomComboBox = new javax.swing.JComboBox();
         sensorComboBox = new javax.swing.JComboBox();
         buildingTextField = new javax.swing.JTextField();
-        areaTextField = new javax.swing.JTextField();
-        roomTextField = new javax.swing.JTextField();
-        sensorTextField = new javax.swing.JTextField();
         buttonPanel = new javax.swing.JPanel();
         addButton = new javax.swing.JButton();
         updateButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        clearButton = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
         bottomPanel = new javax.swing.JPanel();
         tableScrollPane = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
@@ -62,33 +62,37 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
 
         sensorLabel.setText("Sensor");
 
-        buildingComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        areaComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        roomComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        sensorComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        buildingTextField.setText("new building name...");
-
-        areaTextField.setText("new area name...");
-        areaTextField.addActionListener(new java.awt.event.ActionListener() {
+        buildingComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select a building...", "Add new...", "build1", "build2", "build3" }));
+        buildingComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                areaTextFieldActionPerformed(evt);
+                buildingComboBoxActionPerformed(evt);
             }
         });
 
-        roomTextField.setText("new room name...");
+        areaComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select an area..." }));
+        areaComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                areaComboBoxActionPerformed(evt);
+            }
+        });
 
-        sensorTextField.setText("new sensor type...");
+        roomComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select a room..." }));
+        roomComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roomComboBoxActionPerformed(evt);
+            }
+        });
+
+        sensorComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select a sensor..." }));
+
+        buildingTextField.setText("new building name...");
 
         javax.swing.GroupLayout detailPanelLayout = new javax.swing.GroupLayout(detailPanel);
         detailPanel.setLayout(detailPanelLayout);
         detailPanelLayout.setHorizontalGroup(
             detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(detailPanelLayout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addContainerGap(40, Short.MAX_VALUE)
                 .addGroup(detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(sensorLabel)
                     .addComponent(roomLabel)
@@ -101,24 +105,18 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
                     .addComponent(areaComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buildingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(areaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(roomTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sensorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buildingTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addComponent(buildingTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         detailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {areaLabel, buildingLabel, roomLabel, sensorLabel});
 
         detailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {areaComboBox, buildingComboBox, roomComboBox, sensorComboBox});
 
-        detailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {areaTextField, buildingTextField, roomTextField, sensorTextField});
-
         detailPanelLayout.setVerticalGroup(
             detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(detailPanelLayout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addGroup(detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buildingLabel)
                     .addComponent(buildingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -126,36 +124,51 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(areaLabel)
-                    .addComponent(areaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(areaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(areaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(roomLabel)
-                    .addComponent(roomComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(roomTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(roomComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sensorLabel)
-                    .addComponent(sensorComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sensorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addComponent(sensorComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         detailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {areaLabel, buildingLabel, roomLabel, sensorLabel});
 
         detailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {areaComboBox, buildingComboBox, roomComboBox, sensorComboBox});
 
-        detailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {areaTextField, buildingTextField, roomTextField, sensorTextField});
-
         buttonPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
         updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
 
         deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
-        clearButton.setText("Clear");
+        saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
         buttonPanel.setLayout(buttonPanelLayout);
@@ -169,11 +182,11 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(38, Short.MAX_VALUE))
         );
 
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {addButton, clearButton, deleteButton, updateButton});
+        buttonPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {addButton, deleteButton, saveButton, updateButton});
 
         buttonPanelLayout.setVerticalGroup(
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,11 +196,11 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
                     .addComponent(addButton)
                     .addComponent(updateButton)
                     .addComponent(deleteButton)
-                    .addComponent(clearButton))
+                    .addComponent(saveButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {addButton, clearButton, deleteButton, updateButton});
+        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {addButton, deleteButton, saveButton, updateButton});
 
         javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
         topPanel.setLayout(topPanelLayout);
@@ -206,15 +219,20 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Building", "Area", "Room", "Sensor"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableScrollPane.setViewportView(table);
 
         javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
@@ -261,34 +279,101 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void areaTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_areaTextFieldActionPerformed
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        securitySimController.handleSimSensorSetupPanelAdd();
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_areaTextFieldActionPerformed
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void buildingComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingComboBoxActionPerformed
+        securitySimController.handleSimSensorSetupPanelBuildingButton();
+    }//GEN-LAST:event_buildingComboBoxActionPerformed
+
+    private void areaComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_areaComboBoxActionPerformed
+        securitySimController.handleSimSensorSetupPanelAreaButton();
+    }//GEN-LAST:event_areaComboBoxActionPerformed
+
+    private void roomComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roomComboBoxActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JComboBox areaComboBox;
     private javax.swing.JLabel areaLabel;
-    private javax.swing.JTextField areaTextField;
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JComboBox buildingComboBox;
     private javax.swing.JLabel buildingLabel;
     private javax.swing.JTextField buildingTextField;
     private javax.swing.JPanel buttonPanel;
-    private javax.swing.JButton clearButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JPanel detailPanel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JComboBox roomComboBox;
     private javax.swing.JLabel roomLabel;
-    private javax.swing.JTextField roomTextField;
+    private javax.swing.JButton saveButton;
     private javax.swing.JComboBox sensorComboBox;
     private javax.swing.JLabel sensorLabel;
-    private javax.swing.JTextField sensorTextField;
     private javax.swing.JTable table;
     private javax.swing.JScrollPane tableScrollPane;
     private javax.swing.JPanel topPanel;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
+
+    public void setController(SecuritySimController securitySimController) {
+        this.securitySimController = securitySimController;
+    }
+
+    /**
+     * @return the buildingTextField
+     */
+    public javax.swing.JTextField getBuildingTextField() {
+        return buildingTextField;
+    }
+    
+    /**
+     * @return the buildingComboBox
+     */
+    public javax.swing.JComboBox getBuildingComboBox() {
+        return buildingComboBox;
+    }    
+    
+    /**
+     * @return the areaComboBox
+     */
+    public javax.swing.JComboBox getAreaComboBox() {
+        return areaComboBox;
+    }    
+
+    /**
+     * @return the roomComboBox
+     */
+    public javax.swing.JComboBox getRoomComboBox() {
+        return roomComboBox;
+    }
+
+    /**
+     * @return the sensorComboBox
+     */
+    public javax.swing.JComboBox getSensorComboBox() {
+        return sensorComboBox;
+    }
+
+    /**
+     * @return the table
+     */
+    public javax.swing.JTable getTable() {
+        return table;
+    }
 }
