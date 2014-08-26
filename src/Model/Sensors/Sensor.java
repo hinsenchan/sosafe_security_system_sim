@@ -1,8 +1,9 @@
 package Model.Sensors;
 
+import java.io.Serializable;
 import java.util.Observable;
 
-public class Sensor extends Observable {
+public class Sensor extends Observable implements Serializable {
 	protected int data;
 	private int alarmThreshold;
 	

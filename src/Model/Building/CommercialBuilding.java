@@ -1,9 +1,10 @@
 package Model.Building;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommercialBuilding {
+public class CommercialBuilding implements Serializable {
 	private String buildingId;
 	private List<Section> sectionList;
 	private String address;
@@ -24,6 +25,15 @@ public class CommercialBuilding {
 	public void addSection(Section sc) {
 		sectionList.add(sc);
 	}
+        
+        public void removeSection(int sectionId) {
+                for (int i=0; i<sectionList.size(); i++) {
+                    if (sectionList.get(i).getSectionId() == sectionId) {
+                        sectionList.remove(i);
+                        break;
+                    }
+                }            
+        }
 
 	public String getBuildingId() {
 		return buildingId;

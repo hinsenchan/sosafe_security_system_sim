@@ -31,6 +31,7 @@ public class SimMapPanel extends javax.swing.JPanel {
         mapScrollPane = new javax.swing.JScrollPane();
         jLabel1 = new javax.swing.JLabel();
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/apartment_blueprint.jpg"))); // NOI18N
         jLabel1.setText("mapLabel");
         mapScrollPane.setViewportView(jLabel1);
 

@@ -34,20 +34,20 @@ public class SimSensorDisplayPanel extends javax.swing.JPanel {
 
         displayTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "sensor", "status", "id", "room", "area", "building"
+                "building", "area", "room", "sensor", "status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -101,4 +101,10 @@ public class SimSensorDisplayPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane displayScrollPane;
     private javax.swing.JTable displayTable;
     // End of variables declaration//GEN-END:variables
+    /**
+     * @return the table
+     */
+    public javax.swing.JTable getTable() {
+        return displayTable;
+    }
 }

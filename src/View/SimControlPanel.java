@@ -67,11 +67,6 @@ public class SimControlPanel extends javax.swing.JPanel {
 
         consoleTextField.setBackground(new java.awt.Color(204, 255, 102));
         consoleTextField.setText("SoSafe Security Alarm System");
-        consoleTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                consoleTextFieldActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout consolePanelLayout = new javax.swing.GroupLayout(consolePanel);
         consolePanel.setLayout(consolePanelLayout);
@@ -93,7 +88,7 @@ public class SimControlPanel extends javax.swing.JPanel {
         logoPanel.setBackground(new java.awt.Color(255, 255, 255));
         logoPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        logoLabel.setText("logo");
+        logoLabel.setText("SoSafe Alarm");
 
         javax.swing.GroupLayout logoPanelLayout = new javax.swing.GroupLayout(logoPanel);
         logoPanel.setLayout(logoPanelLayout);
@@ -141,51 +136,131 @@ public class SimControlPanel extends javax.swing.JPanel {
 
         oneButton.setBackground(new java.awt.Color(204, 204, 204));
         oneButton.setText("1");
+        oneButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                oneButtonActionPerformed(evt);
+            }
+        });
 
         twoButton.setBackground(new java.awt.Color(204, 204, 204));
         twoButton.setText("2");
+        twoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                twoButtonActionPerformed(evt);
+            }
+        });
 
         threeButton.setBackground(new java.awt.Color(204, 204, 204));
         threeButton.setText("3");
+        threeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                threeButtonActionPerformed(evt);
+            }
+        });
 
         fourButton.setBackground(new java.awt.Color(204, 204, 204));
         fourButton.setText("4");
+        fourButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fourButtonActionPerformed(evt);
+            }
+        });
 
         sevenButton.setBackground(new java.awt.Color(204, 204, 204));
         sevenButton.setText("7");
+        sevenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sevenButtonActionPerformed(evt);
+            }
+        });
 
         starButton.setBackground(new java.awt.Color(204, 204, 204));
         starButton.setText("*");
+        starButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                starButtonActionPerformed(evt);
+            }
+        });
 
         fiveButton.setBackground(new java.awt.Color(204, 204, 204));
         fiveButton.setText("5");
+        fiveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fiveButtonActionPerformed(evt);
+            }
+        });
 
         sixButton.setBackground(new java.awt.Color(204, 204, 204));
         sixButton.setText("6");
+        sixButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sixButtonActionPerformed(evt);
+            }
+        });
 
         eightButton.setBackground(new java.awt.Color(204, 204, 204));
         eightButton.setText("8");
+        eightButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eightButtonActionPerformed(evt);
+            }
+        });
 
         nineButton.setBackground(new java.awt.Color(204, 204, 204));
         nineButton.setText("9");
+        nineButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nineButtonActionPerformed(evt);
+            }
+        });
 
         zeroButton.setBackground(new java.awt.Color(204, 204, 204));
         zeroButton.setText("0");
+        zeroButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zeroButtonActionPerformed(evt);
+            }
+        });
 
         poundButton.setBackground(new java.awt.Color(204, 204, 204));
         poundButton.setText("#");
+        poundButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                poundButtonActionPerformed(evt);
+            }
+        });
 
         statusButton.setBackground(new java.awt.Color(204, 204, 204));
         statusButton.setText("Status");
+        statusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statusButtonActionPerformed(evt);
+            }
+        });
 
         scheduleButton.setBackground(new java.awt.Color(204, 204, 204));
         scheduleButton.setText("Schedule");
+        scheduleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                scheduleButtonActionPerformed(evt);
+            }
+        });
 
         emergencyButton.setBackground(new java.awt.Color(204, 204, 204));
         emergencyButton.setText("Emergency");
+        emergencyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emergencyButtonActionPerformed(evt);
+            }
+        });
 
         testButton.setBackground(new java.awt.Color(204, 204, 204));
         testButton.setText("Test");
+        testButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout keypadPanelLayout = new javax.swing.GroupLayout(keypadPanel);
         keypadPanel.setLayout(keypadPanelLayout);
@@ -194,10 +269,9 @@ public class SimControlPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, keypadPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(keypadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(keypadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(emergencyButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                        .addComponent(scheduleButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                        .addComponent(statusButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(emergencyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                    .addComponent(scheduleButton, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                    .addComponent(statusButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(testButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(keypadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,9 +351,19 @@ public class SimControlPanel extends javax.swing.JPanel {
 
         armButton.setBackground(new java.awt.Color(51, 255, 0));
         armButton.setText("Arm");
+        armButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                armButtonActionPerformed(evt);
+            }
+        });
 
         disarmButton.setBackground(new java.awt.Color(255, 0, 0));
         disarmButton.setText("Disarm");
+        disarmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                disarmButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout functionPanelLayout = new javax.swing.GroupLayout(functionPanel);
         functionPanel.setLayout(functionPanelLayout);
@@ -350,9 +434,77 @@ public class SimControlPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void consoleTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleTextFieldActionPerformed
+    private void armButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_armButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_consoleTextFieldActionPerformed
+    }//GEN-LAST:event_armButtonActionPerformed
+
+    private void disarmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disarmButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_disarmButtonActionPerformed
+
+    private void statusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_statusButtonActionPerformed
+
+    private void scheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_scheduleButtonActionPerformed
+
+    private void emergencyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emergencyButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emergencyButtonActionPerformed
+
+    private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_testButtonActionPerformed
+
+    private void oneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oneButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_oneButtonActionPerformed
+
+    private void twoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_twoButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_twoButtonActionPerformed
+
+    private void threeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_threeButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_threeButtonActionPerformed
+
+    private void fourButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fourButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fourButtonActionPerformed
+
+    private void fiveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fiveButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fiveButtonActionPerformed
+
+    private void sixButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sixButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sixButtonActionPerformed
+
+    private void sevenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sevenButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sevenButtonActionPerformed
+
+    private void eightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eightButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_eightButtonActionPerformed
+
+    private void nineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nineButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nineButtonActionPerformed
+
+    private void starButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_starButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_starButtonActionPerformed
+
+    private void zeroButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zeroButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_zeroButtonActionPerformed
+
+    private void poundButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_poundButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_poundButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -385,4 +537,25 @@ public class SimControlPanel extends javax.swing.JPanel {
     private javax.swing.JButton twoButton;
     private javax.swing.JButton zeroButton;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the consoleTextField
+     */
+    public javax.swing.JTextField getConsoleTextField() {
+        return consoleTextField;
+    }
+
+    /**
+     * @return the offLight
+     */
+    public javax.swing.JLabel getOffLight() {
+        return offLight;
+    }
+
+    /**
+     * @return the onLight
+     */
+    public javax.swing.JLabel getOnLight() {
+        return onLight;
+    }
 }

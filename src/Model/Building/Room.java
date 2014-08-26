@@ -5,8 +5,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import Model.Sensors.Sensor;
+import java.io.Serializable;
 
-public class Room extends Observable implements Observer  {
+public class Room extends Observable implements Observer,Serializable  {
 	private int roomId;
 	private ArrayList<Sensor> sensorList;
 	
