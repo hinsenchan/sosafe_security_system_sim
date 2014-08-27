@@ -8,9 +8,10 @@ import java.util.Observer;
 import Model.Sensors.Sensor;
 import Model.Building.Room;
 import Model.Building.Section;
+import java.io.Serializable;
 
 ///security will observe room
-public class Security implements Observer {
+public class Security implements Observer, Serializable {
 	protected String name;
 	protected int id;
 	protected String callingNum;
@@ -35,10 +36,7 @@ public class Security implements Observer {
 	}
 
 	protected void takeAlarmAction(Room room, Sensor sensor) {
-		System.out.println("Room with id " + room.getRoomId() +
-				" raised alarm of type" + sensor.getType() +
-				". And the sesor data value was " + sensor.getData());
-		System.out.println("Calling ..." + getCallingNum());
+            setStatus(false);
 	}
 
 	public String getCallingNum() {

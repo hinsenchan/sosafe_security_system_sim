@@ -9,10 +9,10 @@ package Controller;
 import Model.Billing.Customer;
 import Model.Building.CommercialBuilding;
 import Model.Building.Room;
-import Model.Building.RoomCreator;
 import Model.Building.Section;
 import Model.SecuritySimModel;
 import Model.SecuritySystem.Security;
+import Simulator.Simulator;
 import View.SecuritySim;
 import View.SimBillPanel;
 import View.SimControlPanel;
@@ -24,7 +24,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -50,6 +49,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
     private SimSensorDisplayPanel sensorDisplayPanel;
     private SimControlPanel controlPanel;
     private SecuritySimModel securitySimModel;
+    private Simulator simulator;
     
     public SecuritySimController(SecuritySim securitySim) {
         this.securitySim = securitySim;
@@ -65,6 +65,10 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         sensorDisplayPanel.getTable().setModel(securitySimModel);
         sensorDisplayPanel.getTable().getSelectionModel().addListSelectionListener(this);
         sensorDisplayPanel.getTable().getModel().addTableModelListener(this); // add a listener to the table model                
+        
+        simulator = securitySimModel.getSimulator();
+        simulator.setConsole(controlPanel.getConsoleTextField());
+        simulator.setPanel(controlPanel);    
     }
     
     public void getPanelsFromView() {
@@ -106,8 +110,8 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         customerPanel.setController(this);
         //mapPanel.setController(this);
         sensorSetupPanel.setController(this);
-        //sensorDisplayPanel.setController(this);
-        //controlPanel.setController(this);
+        sensorDisplayPanel.setController(this);
+        controlPanel.setController(this);
     }
     
     public void handleSimCustomerPanelNew() {
@@ -274,4 +278,76 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         sensorSetupPanel.getAreaComboBox().setModel(new DefaultComboBoxModel(securitySimModel.getAreaModel()));                        
         sensorSetupPanel.getRoomComboBox().setModel(new DefaultComboBoxModel(securitySimModel.getRoomModel()));                            
     }
+
+    public void handleSimArmButton() {
+        simulator.pushArm();
+    }
+    
+    public void handleSimDisarmButton() {
+        simulator.pushDisarm();
+    }
+    
+    public void handleSimStatusButton() {
+        simulator.pushStatus();
+    }
+    
+    public void handleSimScheduleButton() {
+        simulator.pushSchedule();
+    }    
+    
+    public void handleSimEmergencyButton() {
+        simulator.pushEmergency();
+    }
+    
+    public void handleSimTestButton() {
+        simulator.pushTest();
+    }    
+    
+    public void handleSimOneButton() {
+        simulator.pushOne();
+    }    
+    
+    public void handleSimTwoButton() {
+        simulator.pushTwo();
+    }
+    
+    public void handleSimThreeButton() {
+        simulator.pushThree();
+    }
+    
+    public void handleSimFourButton() {
+        simulator.pushFour();
+    }
+    
+    public void handleSimFiveButton() {
+        simulator.pushFive();
+    }
+    
+    public void handleSimSixButton() {
+        simulator.pushSix();
+    }
+    
+    public void handleSimSevenButton() {
+        simulator.pushSeven();
+    }
+    
+    public void handleSimEightButton() {
+        simulator.pushEight();
+    }
+    
+    public void handleSimNineButton() {
+        simulator.pushNine();
+    }
+    
+    public void handleSimStarButton() {
+        simulator.pushStar();
+    }
+    
+    public void handleSimZeroButton() {
+        simulator.pushZero();
+    }
+    
+    public void handleSimPoundButton() {
+        simulator.pushPound();
+    }    
 }

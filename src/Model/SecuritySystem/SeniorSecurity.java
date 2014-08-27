@@ -15,7 +15,7 @@ public class SeniorSecurity extends Security {
 	}
 	
 	protected void takeAlarmAction(Room room, Sensor sensor) {
-		System.out.println("Reporring an alarm alert for security type" + getType());
+                sensor.setStatus("senior collapse alert");
 		super.takeAlarmAction(room, sensor);
 	}
 	

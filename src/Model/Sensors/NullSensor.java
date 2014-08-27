@@ -7,4 +7,8 @@ public class NullSensor extends Sensor {
 	public String getType() {
 		return "No Sensor";
 	}
+        
+        public String getStatus() {
+            return "none";
+        }        
 }

@@ -18,12 +18,14 @@ import Model.SecuritySystem.FireSecurity;
 import Model.SecuritySystem.NullSecurity;
 import Model.SecuritySystem.SeniorSecurity;
 import Model.Sensors.Sensor;
+import Simulator.Simulator;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -47,6 +49,8 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
     private BreakinSecurity breakinSecurity;
     private FireSecurity fireSecurity;
     private SeniorSecurity seniorSecurity;
+    private Simulator simulator;
+    private ArrayList<Sensor> sensorList;
     
     public SecuritySimModel(SecuritySimController securitySimController) {
         this.securitySimController = securitySimController;
@@ -63,9 +67,32 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
         breakinSecurity = new BreakinSecurity("Breakin Security", 1);
         fireSecurity = new FireSecurity("Fire Security", 1);
         seniorSecurity = new SeniorSecurity("Senior Security", 1);
+        sensorList = new ArrayList<Sensor>();
+        simulator = new Simulator(this);
     }
     
-     public String getColumnName(int column) {
+    public ArrayList<Sensor> getSensorList() {
+        
+        sensorList.clear();
+        if (commercialBuilding == null) {
+            return null;
+        }
+        int sectionListsize = commercialBuilding.getSectionList().size();
+        for (int i=0; i<sectionListsize; i++) {
+            Section section = commercialBuilding.getSectionList().get(i);
+            int roomListSize = section.getRoomList().size();
+            for (int j=0; j<roomListSize; j++) {
+                Room room = section.getRoomList().get(j);
+                int sensorListSize = room.getSensorList().size();
+                for (int k=0; k<sensorListSize; k++) {
+                    sensorList.add(room.getSensorList().get(k));
+                }
+            }
+        }
+        return sensorList;
+    }
+    
+    public String getColumnName(int column) {
          return columnNames[column];
      }    
     
@@ -100,7 +127,8 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
                     newRow[1] = Integer.toString(section.getSectionId());
                     newRow[2] = Integer.toString(room.getRoomId());
                     newRow[3] = sensor.getType();
-                    newRow[4] = Integer.toString(sensor.getData());
+                    newRow[4] = sensor.getStatus();
+                    //newRow[4] = Integer.toString(sensor.getData());
                     
                     tableDisplayData.add(newRow);
                     rowIndex++;
@@ -305,5 +333,12 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
      */
     public SeniorSecurity getSeniorSecurity() {
         return seniorSecurity;
+    }
+
+    /**
+     * @return the simulator
+     */
+    public Simulator getSimulator() {
+        return simulator;
     }
 }

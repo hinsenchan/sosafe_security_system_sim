@@ -6,12 +6,15 @@
 
 package View;
 
+import Controller.SecuritySimController;
+
 /**
  *
  * @author hinsenchan
  */
 public class SimControlPanel extends javax.swing.JPanel {
-
+    private SecuritySimController securitySimController;
+    
     /**
      * Creates new form SimControlPad
      */
@@ -344,12 +347,14 @@ public class SimControlPanel extends javax.swing.JPanel {
         functionPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         onLight.setBackground(new java.awt.Color(0, 255, 0));
-        onLight.setText("onLight");
+        onLight.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        onLight.setText("Armed");
 
         offLight.setBackground(new java.awt.Color(255, 0, 0));
-        offLight.setText("offLight");
+        offLight.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        offLight.setText("Disarmed");
 
-        armButton.setBackground(new java.awt.Color(51, 255, 0));
+        armButton.setBackground(new java.awt.Color(204, 204, 204));
         armButton.setText("Arm");
         armButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -357,7 +362,7 @@ public class SimControlPanel extends javax.swing.JPanel {
             }
         });
 
-        disarmButton.setBackground(new java.awt.Color(255, 0, 0));
+        disarmButton.setBackground(new java.awt.Color(204, 204, 204));
         disarmButton.setText("Disarm");
         disarmButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -435,75 +440,75 @@ public class SimControlPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void armButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_armButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimArmButton();
     }//GEN-LAST:event_armButtonActionPerformed
 
     private void disarmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disarmButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimDisarmButton();
     }//GEN-LAST:event_disarmButtonActionPerformed
 
     private void statusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimStatusButton();
     }//GEN-LAST:event_statusButtonActionPerformed
 
     private void scheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimScheduleButton();
     }//GEN-LAST:event_scheduleButtonActionPerformed
 
     private void emergencyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emergencyButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimEmergencyButton();
     }//GEN-LAST:event_emergencyButtonActionPerformed
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimTestButton();
     }//GEN-LAST:event_testButtonActionPerformed
 
     private void oneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oneButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimOneButton();
     }//GEN-LAST:event_oneButtonActionPerformed
 
     private void twoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_twoButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimTwoButton();
     }//GEN-LAST:event_twoButtonActionPerformed
 
     private void threeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_threeButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimThreeButton();
     }//GEN-LAST:event_threeButtonActionPerformed
 
     private void fourButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fourButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimFourButton();
     }//GEN-LAST:event_fourButtonActionPerformed
 
     private void fiveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fiveButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimFiveButton();
     }//GEN-LAST:event_fiveButtonActionPerformed
 
     private void sixButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sixButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimSixButton();
     }//GEN-LAST:event_sixButtonActionPerformed
 
     private void sevenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sevenButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimSevenButton();
     }//GEN-LAST:event_sevenButtonActionPerformed
 
     private void eightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eightButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimEightButton();
     }//GEN-LAST:event_eightButtonActionPerformed
 
     private void nineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nineButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimNineButton();
     }//GEN-LAST:event_nineButtonActionPerformed
 
     private void starButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_starButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimStarButton();
     }//GEN-LAST:event_starButtonActionPerformed
 
     private void zeroButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zeroButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimZeroButton();
     }//GEN-LAST:event_zeroButtonActionPerformed
 
     private void poundButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_poundButtonActionPerformed
-        // TODO add your handling code here:
+        securitySimController.handleSimPoundButton();
     }//GEN-LAST:event_poundButtonActionPerformed
 
 
@@ -538,6 +543,10 @@ public class SimControlPanel extends javax.swing.JPanel {
     private javax.swing.JButton zeroButton;
     // End of variables declaration//GEN-END:variables
 
+    public void setController(SecuritySimController securitySimController) {
+        this.securitySimController = securitySimController;
+    }     
+    
     /**
      * @return the consoleTextField
      */

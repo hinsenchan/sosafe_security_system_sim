@@ -6,11 +6,14 @@
 
 package View;
 
+import Controller.SecuritySimController;
+
 /**
  *
  * @author hinsenchan
  */
 public class SimSensorDisplayPanel extends javax.swing.JPanel {
+    private SecuritySimController securitySimController;
 
     /**
      * Creates new form SimSensorDisplayPanel
@@ -101,6 +104,11 @@ public class SimSensorDisplayPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane displayScrollPane;
     private javax.swing.JTable displayTable;
     // End of variables declaration//GEN-END:variables
+    
+    public void setController(SecuritySimController securitySimController) {
+        this.securitySimController = securitySimController;
+    }    
+    
     /**
      * @return the table
      */

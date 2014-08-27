@@ -1,11 +1,14 @@
 package Model.Sensors;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Observable;
 
 public class Sensor extends Observable implements Serializable {
 	protected int data;
 	private int alarmThreshold;
+        private String status;
 	
 	public int getAlarmThreshold() {
 		return alarmThreshold;
@@ -17,8 +20,17 @@ public class Sensor extends Observable implements Serializable {
 
 	public Sensor() {
 		data = 0 ;
-		alarmThreshold = 5;
+		alarmThreshold = 999;
+                status = "disarmed";
 	}
+        
+        public String getStatus() {
+            return status;
+        }
+        
+        public void setStatus(String status) {
+            this.status = status;
+        }
 
 	public int getData(){
 		return data;
@@ -35,5 +47,5 @@ public class Sensor extends Observable implements Serializable {
 			setChanged();
 			notifyObservers(new Integer(data));
 		}
-	}
+	}     
 }

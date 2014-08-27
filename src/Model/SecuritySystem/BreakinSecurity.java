@@ -15,7 +15,7 @@ public class BreakinSecurity extends Security {
 	}
 	
 	protected void takeAlarmAction(Room room, Sensor sensor) {
-		System.out.println("Reporring an alarm alert for security type" + getType());
+                sensor.setStatus("break-in detected");
 		super.takeAlarmAction(room, sensor);
 	}
 	
