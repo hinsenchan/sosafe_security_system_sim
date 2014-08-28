@@ -13,12 +13,20 @@ import Controller.SecuritySimController;
  * @author hinsenchan
  */
 public class SimCustomerPanel extends javax.swing.JPanel {
+    private static SimCustomerPanel instance;
     private SecuritySimController securitySimController;
+    
+    public synchronized static SimCustomerPanel getInstance() {
+        if (instance == null) {
+            instance = new SimCustomerPanel();
+        }
+        return instance;
+    }     
 
     /**
      * Creates new form SimSensorSetupPanel
      */
-    public SimCustomerPanel() {
+    private SimCustomerPanel() {
         initComponents();
     }
 

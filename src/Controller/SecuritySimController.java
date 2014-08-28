@@ -6,7 +6,10 @@
 
 package Controller;
 
+import Model.Billing.Bills;
 import Model.Billing.Customer;
+import Model.Billing.FireSecurityBills;
+import Model.Billing.MotionSecurityBills;
 import Model.Building.CommercialBuilding;
 import Model.Building.Room;
 import Model.Building.Section;
@@ -50,40 +53,30 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
     private SimControlPanel controlPanel;
     private SecuritySimModel securitySimModel;
     private Simulator simulator;
+    private static SecuritySimController instance;
     
-    public SecuritySimController(SecuritySim securitySim) {
-        this.securitySim = securitySim;
-        this.securitySimModel = new SecuritySimModel(this);
-        getPanelsFromView();
-        setupPanelsInView();
-        setupControllerInViews();
-        
-        sensorSetupPanel.getTable().setModel(securitySimModel); // set the table model using the controller
-        sensorSetupPanel.getTable().getSelectionModel().addListSelectionListener(this);
-        sensorSetupPanel.getTable().getModel().addTableModelListener(this); // add a listener to the table model
-        
-        sensorDisplayPanel.getTable().setModel(securitySimModel);
-        sensorDisplayPanel.getTable().getSelectionModel().addListSelectionListener(this);
-        sensorDisplayPanel.getTable().getModel().addTableModelListener(this); // add a listener to the table model                
-        
-        simulator = securitySimModel.getSimulator();
-        simulator.setConsole(controlPanel.getConsoleTextField());
-        simulator.setPanel(controlPanel);    
+    public synchronized static SecuritySimController getInstance() {
+        if (instance == null) {
+            instance = new SecuritySimController();            
+        }
+        return instance;
     }
     
+    private SecuritySimController() {}
+    
     public void getPanelsFromView() {
-        accountLeftPanel = securitySim.getAccountLeftPanel();
-        accountRightPanel = securitySim.getAccountRightPanel();
-        setupLeftPanel = securitySim.getSetupLeftPanel();
-        setupRightPanel = securitySim.getSetupRightPanel();
-        simulationLeftPanel = securitySim.getSimulationLeftPanel();
-        simulationRightPanel = securitySim.getSimulationRightPanel();
-        billPanel = securitySim.getBillPanel();        
-        customerPanel = securitySim.getCustomerPanel();
-        mapPanel = securitySim.getMapPanel();
-        sensorSetupPanel = securitySim.getSensorSetupPanel();
-        sensorDisplayPanel = securitySim.getSensorDisplayPanel();
-        controlPanel = securitySim.getControlPanel();        
+        accountLeftPanel = getSecuritySim().getAccountLeftPanel();
+        accountRightPanel = getSecuritySim().getAccountRightPanel();
+        setupLeftPanel = getSecuritySim().getSetupLeftPanel();
+        setupRightPanel = getSecuritySim().getSetupRightPanel();
+        simulationLeftPanel = getSecuritySim().getSimulationLeftPanel();
+        simulationRightPanel = getSecuritySim().getSimulationRightPanel();
+        billPanel = getSecuritySim().getBillPanel();        
+        customerPanel = getSecuritySim().getCustomerPanel();
+        mapPanel = getSecuritySim().getMapPanel();
+        sensorSetupPanel = getSecuritySim().getSensorSetupPanel();
+        sensorDisplayPanel = getSecuritySim().getSensorDisplayPanel();
+        controlPanel = getSecuritySim().getControlPanel();        
     }
     
     public void setupPanelsInView() {
@@ -94,10 +87,10 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         setupLeftPanel.setLayout(new BorderLayout());
         setupLeftPanel.add(mapPanel, BorderLayout.CENTER);
         setupRightPanel.setLayout(new BorderLayout());
-        sensorSetupPanel.getBuildingComboBox().setModel(new DefaultComboBoxModel(securitySimModel.getBuildingModel()));
-        sensorSetupPanel.getAreaComboBox().setModel(new DefaultComboBoxModel(securitySimModel.getAreaModel()));
-        sensorSetupPanel.getRoomComboBox().setModel(new DefaultComboBoxModel(securitySimModel.getRoomModel()));
-        sensorSetupPanel.getSensorComboBox().setModel(new DefaultComboBoxModel(securitySimModel.getSensorModel()));        
+        sensorSetupPanel.getBuildingComboBox().setModel(new DefaultComboBoxModel(getSecuritySimModel().getBuildingModel()));
+        sensorSetupPanel.getAreaComboBox().setModel(new DefaultComboBoxModel(getSecuritySimModel().getAreaModel()));
+        sensorSetupPanel.getRoomComboBox().setModel(new DefaultComboBoxModel(getSecuritySimModel().getRoomModel()));
+        sensorSetupPanel.getSensorComboBox().setModel(new DefaultComboBoxModel(getSecuritySimModel().getSensorModel()));        
         setupRightPanel.add(sensorSetupPanel, BorderLayout.CENTER);
         simulationLeftPanel.setLayout(new BorderLayout());
         simulationLeftPanel.add(sensorDisplayPanel, BorderLayout.CENTER);
@@ -114,8 +107,24 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         controlPanel.setController(this);
     }
     
+    public void setupPanelTables() {
+        sensorSetupPanel.getTable().setModel(getSecuritySimModel()); // set the table model using the controller
+        sensorSetupPanel.getTable().getSelectionModel().addListSelectionListener(this);
+        sensorSetupPanel.getTable().getModel().addTableModelListener(this); // add a listener to the table model
+        
+        sensorDisplayPanel.getTable().setModel(getSecuritySimModel());
+        sensorDisplayPanel.getTable().getSelectionModel().addListSelectionListener(this);
+        sensorDisplayPanel.getTable().getModel().addTableModelListener(this); // add a listener to the table model                        
+    }
+    
+    public void setupSimulator() {
+        setSimulator(getSecuritySimModel().getSimulator());
+        getSimulator().setConsole(controlPanel.getConsoleTextField());
+        getSimulator().setPanel(controlPanel);         
+    }
+    
     public void handleSimCustomerPanelNew() {
-        securitySimModel.newModel();
+        getSecuritySimModel().newModel();
         customerPanel.getContractIDTextField().setText("");
         customerPanel.getNameTextField().setText("");
         customerPanel.getEmailTextField().setText("");
@@ -124,16 +133,16 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
     }
         
     public void handleSimCustomerPanelLoad() {
-        securitySimModel.loadModel();
-        String id = securitySimModel.getCustomer().getServiceContractId();
+        getSecuritySimModel().loadModel();
+        String id = getSecuritySimModel().getCustomer().getServiceContractId();
         customerPanel.getContractIDTextField().setText(id);
-        String name = securitySimModel.getCustomer().getName();
+        String name = getSecuritySimModel().getCustomer().getName();
         customerPanel.getNameTextField().setText(name);
-        String email = securitySimModel.getCustomer().getEmailId();
+        String email = getSecuritySimModel().getCustomer().getEmailId();
         customerPanel.getEmailTextField().setText(email);
-        String phone = securitySimModel.getCustomer().getPhoneNumber();
+        String phone = getSecuritySimModel().getCustomer().getPhoneNumber();
         customerPanel.getPhoneTextField().setText(phone);
-        String emergency = securitySimModel.getCustomer().getEmergencyContact();
+        String emergency = getSecuritySimModel().getCustomer().getEmergencyContact();
         customerPanel.getEmergencyTextField().setText(emergency); 
     }
         
@@ -143,23 +152,36 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         String email = customerPanel.getEmailTextField().getText();
         String phone = customerPanel.getPhoneTextField().getText();
         String emergency = customerPanel.getEmergencyTextField().getText();        
-        securitySimModel.setCustomer(name, phone, email, emergency, id);
-        securitySimModel.saveModel();
+        getSecuritySimModel().setCustomer(name, phone, email, emergency, id);
+        getSecuritySimModel().saveModel();
     }
     
     public void handleSimCustomerPanelPrint() {
-        Customer customer;
-        
-        if ((customer = securitySimModel.getCustomer()) != null) {
-            String output = customer.toString();
-            billPanel.getMainTextArea().setText(output);
+        Customer customer = new Customer("","","","","");
+        Bills motionBill;
+        Bills fireBill;
+        String output = "";
+
+        if (getSecuritySimModel().getCustomer() != null) {
+            customer = getSecuritySimModel().getCustomer();            
         }
         else {
             handleSimCustomerPanelSave();
-            customer = securitySimModel.getCustomer();
-            String output = customer.toString();
-            billPanel.getMainTextArea().setText(output);
+            customer = getSecuritySimModel().getCustomer();            
         }
+        if (getSecuritySimModel().getBreakinSecurity() != null) {
+            motionBill = new MotionSecurityBills(getSecuritySimModel().getBuilding(), 
+                    getSecuritySimModel().getBreakinSecurity(), customer);   
+            output += "Breakin Security:\n";
+            output += motionBill.toString();
+        }
+        if (getSecuritySimModel().getFireSecurity() != null) {
+            motionBill = new FireSecurityBills(getSecuritySimModel().getBuilding(), 
+                    getSecuritySimModel().getFireSecurity(), customer);            
+            output += "Fire Security:\n";
+            output += motionBill.toString();
+        }
+        billPanel.getMainTextArea().setText(output);
     }
     
     public void handleSimSensorSetupPanelAdd() {
@@ -169,21 +191,21 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         String roomID = sensorSetupPanel.getRoomComboBox().getSelectedItem().toString();
         String sensorType = sensorSetupPanel.getSensorComboBox().getSelectedItem().toString();
 
-        Security security = securitySimModel.getNullSecurity();
-        if (sensorType.equals("Motion Sensor")) { security = securitySimModel.getBreakinSecurity(); }
-        else if (sensorType.equals("Temperature Sensor")) { security = securitySimModel.getFireSecurity(); }
-        else if (sensorType.equals("Senior Sensor")) { security = securitySimModel.getSeniorSecurity(); }        
+        Security security = getSecuritySimModel().getNullSecurity();
+        if (sensorType.equals("Motion Sensor")) { security = getSecuritySimModel().getBreakinSecurity(); }
+        else if (sensorType.equals("Temperature Sensor")) { security = getSecuritySimModel().getFireSecurity(); }
+        else if (sensorType.equals("Senior Sensor")) { security = getSecuritySimModel().getSeniorSecurity(); }        
         
         if (buildingID.equals("Add new...")) {            
-            Room room = securitySimModel.createBuilding(buildingName);
+            Room room = getSecuritySimModel().createBuilding(buildingName);
             security.addSecurityTo(room);
         }
         else if (sectionID.equals("Add new...")) {
-            Room room = securitySimModel.createSection();
+            Room room = getSecuritySimModel().createSection();
             security.addSecurityTo(room);
         }        
         else if (roomID.equals("Add new...")) {
-            CommercialBuilding cb = securitySimModel.getBuilding();
+            CommercialBuilding cb = getSecuritySimModel().getBuilding();
             int sectionIndex = -1;
 
             for (int i=0; i<cb.getSectionList().size(); i++) {
@@ -193,11 +215,11 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
                 }
             }
             
-            Room room = securitySimModel.createRoom(sectionIndex);
+            Room room = getSecuritySimModel().createRoom(sectionIndex);
             security.addSecurityTo(room);            
         }
         else {
-            CommercialBuilding cb = securitySimModel.getBuilding();
+            CommercialBuilding cb = getSecuritySimModel().getBuilding();
             int sectionIndex = -1;
             int roomIndex = -1;
             Room room;
@@ -215,14 +237,14 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
             }                        
         }        
         
-        securitySimModel.reloadTableDisplayData();
-        securitySimModel.fireTableDataChanged();
+        getSecuritySimModel().reloadTableDisplayData();
+        getSecuritySimModel().fireTableDataChanged();
     }
     
     public void handleSimSensorSetupPanelBuildingButton() {
         String buildingSelected = sensorSetupPanel.getBuildingComboBox().getSelectedItem().toString();
-        String[] areaModel = securitySimModel.getAreaModel();
-        String[] roomModel = securitySimModel.getRoomModel();
+        String[] areaModel = getSecuritySimModel().getAreaModel();
+        String[] roomModel = getSecuritySimModel().getRoomModel();
         if (buildingSelected.equals("Select a building...")) {
             sensorSetupPanel.getAreaComboBox().setModel(new DefaultComboBoxModel(areaModel));
             sensorSetupPanel.getRoomComboBox().setModel(new DefaultComboBoxModel(roomModel));            
@@ -232,7 +254,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
             sensorSetupPanel.getRoomComboBox().setModel(new DefaultComboBoxModel(new String[] { "Add new..." }));
         }
         else {
-            CommercialBuilding building = securitySimModel.getBuilding();
+            CommercialBuilding building = getSecuritySimModel().getBuilding();
             ArrayList<String> filteredSectionModel = new ArrayList<String>();            
             filteredSectionModel.add("Add new...");            
             for (int i=0; i<building.getSectionList().size(); i++) {
@@ -245,7 +267,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
     
     public void handleSimSensorSetupPanelAreaButton() {
         String areaSelected = sensorSetupPanel.getAreaComboBox().getSelectedItem().toString();
-        String[] roomModel = securitySimModel.getRoomModel();
+        String[] roomModel = getSecuritySimModel().getRoomModel();
         if (areaSelected.equals("Select an area...")){
             sensorSetupPanel.getRoomComboBox().setModel(new DefaultComboBoxModel(roomModel));
         }           
@@ -253,7 +275,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
             sensorSetupPanel.getRoomComboBox().setModel(new DefaultComboBoxModel(new String[] { "Add new..." }));
         }    
         else {
-            Section section = securitySimModel.getBuilding().getSectionList().get(Integer.parseInt(areaSelected));
+            Section section = getSecuritySimModel().getBuilding().getSectionList().get(Integer.parseInt(areaSelected));
             ArrayList<String> filteredRoomModel = new ArrayList<String>();            
             filteredRoomModel.add("Add new...");
             for (int i=0; i<section.getRoomList().size(); i++) {
@@ -273,81 +295,123 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
     }    
     
     public void reloadComboBoxModels() {
-        securitySimModel.reloadComboBoxModels();
-        sensorSetupPanel.getBuildingComboBox().setModel(new DefaultComboBoxModel(securitySimModel.getBuildingModel()));                                    
-        sensorSetupPanel.getAreaComboBox().setModel(new DefaultComboBoxModel(securitySimModel.getAreaModel()));                        
-        sensorSetupPanel.getRoomComboBox().setModel(new DefaultComboBoxModel(securitySimModel.getRoomModel()));                            
+        getSecuritySimModel().reloadComboBoxModels();
+        sensorSetupPanel.getBuildingComboBox().setModel(new DefaultComboBoxModel(getSecuritySimModel().getBuildingModel()));                                    
+        sensorSetupPanel.getAreaComboBox().setModel(new DefaultComboBoxModel(getSecuritySimModel().getAreaModel()));                        
+        sensorSetupPanel.getRoomComboBox().setModel(new DefaultComboBoxModel(getSecuritySimModel().getRoomModel()));                            
     }
 
     public void handleSimArmButton() {
-        simulator.pushArm();
+        getSimulator().pushArm();
     }
     
     public void handleSimDisarmButton() {
-        simulator.pushDisarm();
+        getSimulator().pushDisarm();
     }
     
     public void handleSimStatusButton() {
-        simulator.pushStatus();
+        getSimulator().pushStatus();
     }
     
     public void handleSimScheduleButton() {
-        simulator.pushSchedule();
+        getSimulator().pushSchedule();
     }    
     
     public void handleSimEmergencyButton() {
-        simulator.pushEmergency();
+        getSimulator().pushEmergency();
     }
     
     public void handleSimTestButton() {
-        simulator.pushTest();
+        getSimulator().pushTest();
     }    
     
     public void handleSimOneButton() {
-        simulator.pushOne();
+        getSimulator().pushOne();
     }    
     
     public void handleSimTwoButton() {
-        simulator.pushTwo();
+        getSimulator().pushTwo();
     }
     
     public void handleSimThreeButton() {
-        simulator.pushThree();
+        getSimulator().pushThree();
     }
     
     public void handleSimFourButton() {
-        simulator.pushFour();
+        getSimulator().pushFour();
     }
     
     public void handleSimFiveButton() {
-        simulator.pushFive();
+        getSimulator().pushFive();
     }
     
     public void handleSimSixButton() {
-        simulator.pushSix();
+        getSimulator().pushSix();
     }
     
     public void handleSimSevenButton() {
-        simulator.pushSeven();
+        getSimulator().pushSeven();
     }
     
     public void handleSimEightButton() {
-        simulator.pushEight();
+        getSimulator().pushEight();
     }
     
     public void handleSimNineButton() {
-        simulator.pushNine();
+        getSimulator().pushNine();
     }
     
     public void handleSimStarButton() {
-        simulator.pushStar();
+        getSimulator().pushStar();
     }
     
     public void handleSimZeroButton() {
-        simulator.pushZero();
+        getSimulator().pushZero();
     }
     
     public void handleSimPoundButton() {
-        simulator.pushPound();
+        getSimulator().pushPound();
     }    
+
+    /**
+     * @return the securitySim
+     */
+    public SecuritySim getSecuritySim() {
+        return securitySim;
+    }
+
+    /**
+     * @param securitySim the securitySim to set
+     */
+    public void setSecuritySim(SecuritySim securitySim) {
+        this.securitySim = securitySim;
+    }
+
+    /**
+     * @return the securitySimModel
+     */
+    public SecuritySimModel getSecuritySimModel() {
+        return securitySimModel;
+    }
+
+    /**
+     * @param securitySimModel the securitySimModel to set
+     */
+    public void setSecuritySimModel(SecuritySimModel securitySimModel) {
+        this.securitySimModel = securitySimModel;
+    }
+
+    /**
+     * @return the simulator
+     */
+    public Simulator getSimulator() {
+        return simulator;
+    }
+
+    /**
+     * @param simulator the simulator to set
+     */
+    public void setSimulator(Simulator simulator) {
+        this.simulator = simulator;
+    }
 }

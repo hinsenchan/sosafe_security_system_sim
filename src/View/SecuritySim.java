@@ -7,6 +7,15 @@
 package View;
 
 import Controller.SecuritySimController;
+import Controller.SecuritySimControllerBuilder;
+import Controller.SecuritySimControllerConcreteBuilder;
+import Controller.SecuritySimControllerConcreteDirector;
+import Controller.SecuritySimControllerDirector;
+import Model.SecuritySimModel;
+import Model.SecuritySimModelBuilder;
+import Model.SecuritySimModelConcreteBuilder;
+import Model.SecuritySimModelConcreteDirector;
+import Model.SecuritySimModelDirector;
 
 /**
  *
@@ -20,19 +29,35 @@ public class SecuritySim extends javax.swing.JFrame {
     private SimSensorDisplayPanel sensorDisplayPanel;
     private SimControlPanel controlPanel;
     private SecuritySimController securitySimController;
-
+    private SimPanelAbstractFactory panelFactory;
+    private static SecuritySim instance;
+    
+    public synchronized static SecuritySim getInstance() {
+        if (instance == null) {
+            instance = new SecuritySim();
+        }
+        return instance;
+    }
+    
     /**
      * Creates new form SecuritySim
      */
-    public SecuritySim() {
-        initComponents(); 
-        billPanel = new SimBillPanel();
-        customerPanel = new SimCustomerPanel();
-        mapPanel = new SimMapPanel();
-        sensorSetupPanel = new SimSensorSetupPanel();
-        sensorDisplayPanel = new SimSensorDisplayPanel();
-        controlPanel = new SimControlPanel();        
-        securitySimController = new SecuritySimController(this);        
+    private SecuritySim() {
+        initComponents();
+    }
+    
+    public void createPanels() {
+        panelFactory = SimPanelConcreteFactory.getInstance();
+        setBillPanel(panelFactory.createBillPanel());
+        setCustomerPanel(panelFactory.createCustomPanel());
+        setMapPanel(panelFactory.createMapPanel());
+        setSensorSetupPanel(panelFactory.createSensorSetupPanel());
+        setSensorDisplayPanel(panelFactory.createSensorDisplayPanel());
+        setControlPanel(panelFactory.createControlPanel());          
+    }
+    
+    public void setupController() {
+        setSecuritySimController(SecuritySimController.getInstance());
     }
 
     /**
@@ -232,8 +257,11 @@ public class SecuritySim extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SecuritySim().setVisible(true);
+            public void run() {                                
+                SecuritySimBuilder simBuilder = SecuritySimConcreteBuilder.getInstance();
+                SecuritySimDirector simDirector = SecuritySimConcreteDirector.getInstance();
+                SecuritySim securitySim = simDirector.build(simBuilder);                
+                securitySim.setVisible(true);
             }
         });
     }
@@ -335,5 +363,61 @@ public class SecuritySim extends javax.swing.JFrame {
      */
     public SimControlPanel getControlPanel() {
         return controlPanel;
+    }
+
+    /**
+     * @param billPanel the billPanel to set
+     */
+    public void setBillPanel(SimBillPanel billPanel) {
+        this.billPanel = billPanel;
+    }
+
+    /**
+     * @param customerPanel the customerPanel to set
+     */
+    public void setCustomerPanel(SimCustomerPanel customerPanel) {
+        this.customerPanel = customerPanel;
+    }
+
+    /**
+     * @param mapPanel the mapPanel to set
+     */
+    public void setMapPanel(SimMapPanel mapPanel) {
+        this.mapPanel = mapPanel;
+    }
+
+    /**
+     * @param sensorSetupPanel the sensorSetupPanel to set
+     */
+    public void setSensorSetupPanel(SimSensorSetupPanel sensorSetupPanel) {
+        this.sensorSetupPanel = sensorSetupPanel;
+    }
+
+    /**
+     * @param sensorDisplayPanel the sensorDisplayPanel to set
+     */
+    public void setSensorDisplayPanel(SimSensorDisplayPanel sensorDisplayPanel) {
+        this.sensorDisplayPanel = sensorDisplayPanel;
+    }
+
+    /**
+     * @param controlPanel the controlPanel to set
+     */
+    public void setControlPanel(SimControlPanel controlPanel) {
+        this.controlPanel = controlPanel;
+    }
+
+    /**
+     * @return the securitySimController
+     */
+    public SecuritySimController getSecuritySimController() {
+        return securitySimController;
+    }
+
+    /**
+     * @param securitySimController the securitySimController to set
+     */
+    public void setSecuritySimController(SecuritySimController securitySimController) {
+        this.securitySimController = securitySimController;
     }
 }

@@ -39,7 +39,7 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
     private SectionCreator sectionCreator;
     private RoomCreator roomCreator;
     private ArrayList<Object> serialDataList;
-    private ArrayList<String[]> tableDisplayData;
+    private ArrayList<String[]> tableDisplayData = new ArrayList<String[]>();;
     private String[] buildingModel;
     private String[] areaModel;
     private String[] roomModel;
@@ -50,25 +50,35 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
     private FireSecurity fireSecurity;
     private SeniorSecurity seniorSecurity;
     private Simulator simulator;
-    private ArrayList<Sensor> sensorList;
+    private ArrayList<Sensor> sensorList = new ArrayList<Sensor>();;
+    private static SecuritySimModel instance;
     
-    public SecuritySimModel(SecuritySimController securitySimController) {
-        this.securitySimController = securitySimController;
-        tableDisplayData = new ArrayList<String[]>();
+    public synchronized static SecuritySimModel getInstance() {
+        if (instance == null) {
+            instance = new SecuritySimModel();
+        }
+        return instance;
+    }
+    
+    private SecuritySimModel() {}
+    
+    public void setupComboBoxModels() {
         buildingModel = new String[] {"Add new..."};
         areaModel = new String[] {"Add new..."};
         roomModel = new String[] {"Add new..."};        
         sensorModel = new String[] {"Select a sensor...", "No Sensor", 
-            "Motion Sensor", "Senior Sensor", "Temperature Sensor"};
-        
+            "Motion Sensor", "Senior Sensor", "Temperature Sensor"};        
+    }
+    
+    public void setupColumnNames() {
         columnNames = new String[]{"Building", "Section", "Room", "Sensor", "Status"};
-        
+    }
+    
+    public void setupSecurity() {
         nullSecurity = new NullSecurity("Null Security", 1);
-        breakinSecurity = new BreakinSecurity("Breakin Security", 1);
-        fireSecurity = new FireSecurity("Fire Security", 1);
-        seniorSecurity = new SeniorSecurity("Senior Security", 1);
-        sensorList = new ArrayList<Sensor>();
-        simulator = new Simulator(this);
+        breakinSecurity = new BreakinSecurity("Breakin Security", 2);
+        fireSecurity = new FireSecurity("Fire Security", 3);
+        seniorSecurity = new SeniorSecurity("Senior Security", 4);        
     }
     
     public ArrayList<Sensor> getSensorList() {
@@ -189,7 +199,6 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             serialDataList = new ArrayList<Object>();            
             serialDataList.add(customer);
-            serialDataList.add(commercialBuilding);
             out.writeObject(serialDataList);
             out.close();
             fileOut.close();   
@@ -205,7 +214,6 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
             ObjectInputStream in = new ObjectInputStream(fileIn);
             serialDataList = (ArrayList<Object>)in.readObject();
             customer = (Customer)serialDataList.get(0);
-            commercialBuilding = (CommercialBuilding)serialDataList.get(1);
             reloadTableDisplayData();
             reloadComboBoxModels();
             fireTableDataChanged();
@@ -340,5 +348,26 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
      */
     public Simulator getSimulator() {
         return simulator;
+    }
+
+    /**
+     * @return the securitySimController
+     */
+    public SecuritySimController getSecuritySimController() {
+        return securitySimController;
+    }
+
+    /**
+     * @param securitySimController the securitySimController to set
+     */
+    public void setSecuritySimController(SecuritySimController securitySimController) {
+        this.securitySimController = securitySimController;
+    }
+
+    /**
+     * @param simulator the simulator to set
+     */
+    public void setSimulator(Simulator simulator) {
+        this.simulator = simulator;
     }
 }

@@ -13,12 +13,20 @@ import Controller.SecuritySimController;
  * @author hinsenchan
  */
 public class SimSensorSetupPanel extends javax.swing.JPanel {
+    private static SimSensorSetupPanel instance;
     private SecuritySimController securitySimController;
+    
+    public synchronized static SimSensorSetupPanel getInstance() {
+        if (instance == null) {
+            instance = new SimSensorSetupPanel();
+        }
+        return instance;
+    }    
 
     /**
      * Creates new form SimSensorSetupPanel
      */
-    public SimSensorSetupPanel() {
+    private SimSensorSetupPanel() {
         initComponents();      
     }
 
@@ -45,7 +53,6 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
         buildingTextField = new javax.swing.JTextField();
         buttonPanel = new javax.swing.JPanel();
         addButton = new javax.swing.JButton();
-        saveButton = new javax.swing.JButton();
         bottomPanel = new javax.swing.JPanel();
         tableScrollPane = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
@@ -147,13 +154,6 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
             }
         });
 
-        saveButton.setText("Save");
-        saveButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
         buttonPanel.setLayout(buttonPanelLayout);
         buttonPanelLayout.setHorizontalGroup(
@@ -161,24 +161,15 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(118, 118, 118)
-                .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {addButton, saveButton});
-
         buttonPanelLayout.setVerticalGroup(
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addButton)
-                    .addComponent(saveButton))
+                .addComponent(addButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {addButton, saveButton});
 
         javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
         topPanel.setLayout(topPanelLayout);
@@ -261,10 +252,6 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
         securitySimController.handleSimSensorSetupPanelAdd();
     }//GEN-LAST:event_addButtonActionPerformed
 
-    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        securitySimController.handleSimCustomerPanelSave();
-    }//GEN-LAST:event_saveButtonActionPerformed
-
     private void buildingComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingComboBoxActionPerformed
         securitySimController.handleSimSensorSetupPanelBuildingButton();
     }//GEN-LAST:event_buildingComboBoxActionPerformed
@@ -291,7 +278,6 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
     private javax.swing.JPanel mainPanel;
     private javax.swing.JComboBox roomComboBox;
     private javax.swing.JLabel roomLabel;
-    private javax.swing.JButton saveButton;
     private javax.swing.JComboBox sensorComboBox;
     private javax.swing.JLabel sensorLabel;
     private javax.swing.JTable table;

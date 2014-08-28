@@ -19,9 +19,10 @@ public class Bills {
 	public String toString() {
                 String output = "";
                 output += customer.toString();
-		output += "Emergency number : " + security.getCallingNum();
-		output += "Effective Dates  : " + security.getSchedule();
-		output += "Total amount  : " + (security.getBillabeUnits() * getUnitRate());
+		output += "\nEmergency number : " + security.getCallingNum();
+		output += "\nEffective Dates  : " + security.getSchedule();
+		output += "\nTotal amount  : " + (security.getBillabeUnits() * getUnitRate());
+                output += "\n\n";
                 return output;
 	}
 

@@ -31,10 +31,16 @@ public class Simulator {
     private JTextField console;
     private ArrayList<Sensor> sensorList;
     private SecuritySimModel securitySimModel;
+    private static Simulator instance;
     
-    public Simulator(SecuritySimModel securitySimModel) {     
-        this.securitySimModel = securitySimModel;
-        
+    public synchronized static Simulator getInstance() {
+        if (instance == null) {
+            instance = new Simulator();
+        }
+        return instance;
+    }
+    
+    private Simulator() {        
         standbyState = new SimulatorStandbyState(this);
         armState = new SimulatorArmState(this);
         disarmState = new SimulatorDisarmState(this);
@@ -55,7 +61,7 @@ public class Simulator {
     }
     
     public void refreshSensorList() {
-        sensorList = securitySimModel.getSensorList();          
+        sensorList = getSecuritySimModel().getSensorList();          
     }
     
     public void setState(SimulatorState state) {
@@ -210,5 +216,12 @@ public class Simulator {
     
     public SecuritySimModel getSecuritySimModel() {
         return securitySimModel;
+    }
+
+    /**
+     * @param securitySimModel the securitySimModel to set
+     */
+    public void setSecuritySimModel(SecuritySimModel securitySimModel) {
+        this.securitySimModel = securitySimModel;
     }
 }

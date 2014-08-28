@@ -11,11 +11,19 @@ package View;
  * @author hinsenchan
  */
 public class SimMapPanel extends javax.swing.JPanel {
+    private static SimMapPanel instance;
+    
+    public synchronized static SimMapPanel getInstance() {
+        if (instance == null) {
+            instance = new SimMapPanel();
+        }
+        return instance;
+    }     
 
     /**
      * Creates new form SimMap
      */
-    public SimMapPanel() {
+    private SimMapPanel() {
         initComponents();
     }
 
