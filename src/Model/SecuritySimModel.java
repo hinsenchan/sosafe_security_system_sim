@@ -214,9 +214,6 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
             ObjectInputStream in = new ObjectInputStream(fileIn);
             serialDataList = (ArrayList<Object>)in.readObject();
             customer = (Customer)serialDataList.get(0);
-            reloadTableDisplayData();
-            reloadComboBoxModels();
-            fireTableDataChanged();
             in.close();
             fileIn.close();            
         }

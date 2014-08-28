@@ -68,9 +68,6 @@ public class SimCustomerPanel extends javax.swing.JPanel {
 
         emailLabel.setText("Email:");
 
-        contractIDTextField.setEditable(false);
-        contractIDTextField.setEnabled(false);
-
         emergencyLabel.setText("Emergency Contact:");
 
         customerAccountLabel.setText("Customer Account Information");

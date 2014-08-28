@@ -30,17 +30,26 @@ public class SimulatorTestState implements SimulatorState {
         state = "input";
     }
     public void confirm() {
-        if (inputBuffer.equals("0")) {
+        int breakinSec = simulator.getSecuritySimModel().getBreakinSecurity().getSensorList().size();
+        int fireSec = simulator.getSecuritySimModel().getFireSecurity().getSensorList().size();
+        int seniorSec = simulator.getSecuritySimModel().getSeniorSecurity().getSensorList().size();
+        
+        if ((breakinSec + fireSec + seniorSec) > 0 && inputBuffer.equals("0")) {
             simulator.getConsole().setText("!!! TEST ALL !!!");   
             simulator.getConsolePanel().getOnLight().setOpaque(true);
             simulator.getConsolePanel().getOffLight().setOpaque(false);
             testAllSensors();
         }
         else if (Integer.parseInt(inputBuffer) >= 1 && Integer.parseInt(inputBuffer) <= 3) {
-            simulator.getConsole().setText("!!! TEST !!!");
-            testSensor(Integer.parseInt(inputBuffer));
-            simulator.getConsolePanel().getOnLight().setOpaque(true);
-            simulator.getConsolePanel().getOffLight().setOpaque(false);            
+            if ((fireSec > 0 && inputBuffer.equals("1")) || 
+                    (breakinSec > 0 && inputBuffer.equals("2")) || 
+                    (seniorSec > 0 && inputBuffer.equals("3"))) {            
+                simulator.getConsole().setText("!!! TEST !!!");
+                testSensor(Integer.parseInt(inputBuffer));
+                simulator.getConsolePanel().getOnLight().setOpaque(true);
+                simulator.getConsolePanel().getOffLight().setOpaque(false);            
+            }
+            else { simulator.getConsole().setText("INVALID SENSOR"); }
         }
         else {
             simulator.getConsole().setText("INVALID TEST");

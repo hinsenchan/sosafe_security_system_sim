@@ -27,7 +27,8 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
      * Creates new form SimSensorSetupPanel
      */
     private SimSensorSetupPanel() {
-        initComponents();      
+        initComponents();   
+        buildingTextField.setVisible(false);
     }
 
     /**
@@ -261,7 +262,7 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_areaComboBoxActionPerformed
 
     private void roomComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomComboBoxActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_roomComboBoxActionPerformed
 
 

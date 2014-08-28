@@ -29,17 +29,26 @@ public class SimulatorDisarmState implements SimulatorState {
         state = "input";
     }
     public void confirm() {
-        if (inputBuffer.equals("0")) {
+        int breakinSec = simulator.getSecuritySimModel().getBreakinSecurity().getSensorList().size();
+        int fireSec = simulator.getSecuritySimModel().getFireSecurity().getSensorList().size();
+        int seniorSec = simulator.getSecuritySimModel().getSeniorSecurity().getSensorList().size();
+        
+        if ((breakinSec + fireSec + seniorSec) > 0 && inputBuffer.equals("0")) {
             simulator.getConsole().setText("!!! DISARMED ALL !!!");   
             simulator.getConsolePanel().getOnLight().setOpaque(false);
             simulator.getConsolePanel().getOffLight().setOpaque(true);            
             disarmAllSensors();
         }
         else if (Integer.parseInt(inputBuffer) >= 1 && Integer.parseInt(inputBuffer) <= 3) {
-            simulator.getConsole().setText("!!! DISARMED !!!");
-            disarmSensor(Integer.parseInt(inputBuffer));
-            simulator.getConsolePanel().getOnLight().setOpaque(false);
-            simulator.getConsolePanel().getOffLight().setOpaque(true);            
+            if ((fireSec > 0 && inputBuffer.equals("1")) || 
+                    (breakinSec > 0 && inputBuffer.equals("2")) || 
+                    (seniorSec > 0 && inputBuffer.equals("3"))) {            
+                simulator.getConsole().setText("!!! DISARMED !!!");
+                disarmSensor(Integer.parseInt(inputBuffer));
+                simulator.getConsolePanel().getOnLight().setOpaque(false);
+                simulator.getConsolePanel().getOffLight().setOpaque(true);            
+            }
+            else { simulator.getConsole().setText("INVALID SENSOR"); }
         }
         else {
             simulator.getConsole().setText("INVALID SENSOR");
@@ -74,10 +83,14 @@ public class SimulatorDisarmState implements SimulatorState {
             Sensor sensor = sensorList.get(i);
             if (!sensor.getType().equals("No Sensor")) {
                 sensor.setAlarmThreshold(999);
+                sensor.setData(0);                
                 sensor.setStatus("disarmed");
             }
             
         }
+        simulator.getSecuritySimModel().getBreakinSecurity().resetAlarms();
+        simulator.getSecuritySimModel().getFireSecurity().resetAlarms();
+        simulator.getSecuritySimModel().getSeniorSecurity().resetAlarms();
         simulator.getSecuritySimModel().reloadTableDisplayData();
         simulator.getSecuritySimModel().fireTableDataChanged();
     }
@@ -87,12 +100,15 @@ public class SimulatorDisarmState implements SimulatorState {
         switch(value) {
             case 1: 
                 type = "TemperatureSensor";
+                simulator.getSecuritySimModel().getFireSecurity().resetAlarms();
                 break;            
             case 2: 
                 type = "MotionSensor";
+                simulator.getSecuritySimModel().getBreakinSecurity().resetAlarms();
                 break;
             case 3:
                 type = "SeniorSensor";
+                simulator.getSecuritySimModel().getSeniorSecurity().resetAlarms();
                 break;
         }
         
@@ -102,6 +118,7 @@ public class SimulatorDisarmState implements SimulatorState {
             Sensor sensor = sensorList.get(i);
             if (sensor.getType().equals(type)) {
                 sensor.setAlarmThreshold(999);
+                sensor.setData(0);
                 sensor.setStatus("disarmed");
             }
         }

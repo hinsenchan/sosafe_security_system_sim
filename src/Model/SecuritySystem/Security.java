@@ -17,7 +17,7 @@ public class Security implements Observer, Serializable {
 	protected String callingNum;
 	protected boolean status;
 	protected String schedule;
-	protected List<Sensor> sensorList;
+	private List<Sensor> sensorList;
 	
 	public Security (String name, int id) {
 		this.name = name;
@@ -34,6 +34,10 @@ public class Security implements Observer, Serializable {
 		Sensor sensor = (Sensor) arg1;
 		takeAlarmAction(room, sensor);
 	}
+        
+        public void resetAlarms() {
+            setStatus(true);
+        }
 
 	protected void takeAlarmAction(Room room, Sensor sensor) {
             setStatus(false);
@@ -87,7 +91,7 @@ public class Security implements Observer, Serializable {
 	
 	public void addSecurityTo(Room room) {
 		Sensor sensor = getSensorInstance();
-		sensorList.add(sensor);
+		getSensorList().add(sensor);
 		room.addSensor(sensor);
 		room.addObserver(this);
 	}
@@ -96,7 +100,14 @@ public class Security implements Observer, Serializable {
 		if (!status) {
 			return 0;
 		}
-		return sensorList.size();
+		return getSensorList().size();
 	}
+
+    /**
+     * @return the sensorList
+     */
+    public List<Sensor> getSensorList() {
+        return sensorList;
+    }
 	
 }

@@ -23,6 +23,7 @@ public class SimulatorScheduleState implements SimulatorState {
     private String state = "command";
     private int time = 0;
     private Timer timer;
+    private int sensor = -1;
     
     SimulatorScheduleState(Simulator simulator) {
         this.simulator = simulator;
@@ -35,64 +36,84 @@ public class SimulatorScheduleState implements SimulatorState {
     }
     public void confirm() {        
         if (state.equals("timeInput")) {
-            if (Integer.parseInt(inputBuffer) > 0) {
-                simulator.getConsole().setText("Input (0=all,1=fire,2=breakin,3=senior): _");
-                simulator.getConsolePanel().repaint();
-                time = Integer.parseInt(inputBuffer) * 1000;
+            if (inputBuffer.length() > 0) {
+                if (Integer.parseInt(inputBuffer) > 0) {
+                    simulator.getConsole().setText("Input (0=all,1=fire,2=breakin,3=senior): _");
+                    simulator.getConsolePanel().repaint();
+                    time = Integer.parseInt(inputBuffer) * 1000;
+                    inputBuffer = "";
+                    state = "input";
+                }
+            }
+            else {               
+                simulator.getConsole().setText("INVALID TIME OR COMMAND");
+                simulator.getConsolePanel().repaint();         
+                state = "command";
                 inputBuffer = "";
-                state = "input";
+                time=0;
+                simulator.setState(simulator.getStandbyState());
+            }
+        }
+        else if (state.equals("input")) {        
+            if (inputBuffer.length() > 0) {
+                sensor = Integer.parseInt(inputBuffer);
+                if (sensor >= 0 && sensor <= 3) {
+                    int breakinSec = simulator.getSecuritySimModel().getBreakinSecurity().getSensorList().size();
+                    int fireSec = simulator.getSecuritySimModel().getFireSecurity().getSensorList().size();
+                    int seniorSec = simulator.getSecuritySimModel().getSeniorSecurity().getSensorList().size();
+                    
+                    if (((breakinSec + fireSec + seniorSec) > 0 && inputBuffer.equals("0")) || 
+                            (fireSec > 0 && inputBuffer.equals("1")) || 
+                            (breakinSec > 0 && inputBuffer.equals("2")) || 
+                            (seniorSec > 0 && inputBuffer.equals("3"))) {
+                        simulator.getConsole().setText("HOLDING FOR " + (time/1000) + " SECONDS...");  
+                        simulator.getConsolePanel().repaint();
+                        sensor = Integer.parseInt(inputBuffer);
+
+                        ActionListener taskPerformer = new ActionListener() {
+                            public void actionPerformed(ActionEvent evt) {
+                                simulator.getConsole().setText("!!! ARMED !!!");
+                                simulator.getConsolePanel().getOnLight().setOpaque(true);
+                                simulator.getConsolePanel().getOffLight().setOpaque(false);  
+
+                                if (sensor == 0) { armAllSensors(); }
+                                else { armSensor(sensor); }
+                                time = 0;
+                                sensor = -1;
+                                timer.stop();                            
+                            }
+                        };           
+                        timer = new Timer(time,taskPerformer);   
+                        timer.start();
+                    }
+                    else {
+                        simulator.getConsole().setText("INVALID SENSOR");  
+                        simulator.getConsolePanel().repaint(); 
+                        time = 0;
+                        inputBuffer = "";
+                        simulator.setState(simulator.getStandbyState());  
+                        state = "command";                        
+                    }
+                }
+                else {
+                    simulator.getConsole().setText("INVALID SENSOR");  
+                    simulator.getConsolePanel().repaint(); 
+                    time = 0;
+                    inputBuffer = "";
+                    simulator.setState(simulator.getStandbyState());  
+                    state = "command";
+                }
             }
             else {
                 simulator.getConsole().setText("INVALID COMMAND");
                 simulator.getConsolePanel().repaint();         
                 state = "command";
+                inputBuffer = "";
+                time=0;
+                simulator.setState(simulator.getStandbyState());                   
             }
         }
-        else {        
-            if (inputBuffer.equals("0")) {
-                simulator.getConsole().setText("HOLDING FOR " + inputBuffer + " SECONDS...");  
-                simulator.getConsolePanel().repaint();
-                
-                ActionListener taskPerformer = new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        simulator.getConsole().setText("!!! ARMED ALL !!!");   
-                        simulator.getConsolePanel().getOnLight().setOpaque(true);
-                        simulator.getConsolePanel().getOffLight().setOpaque(false);
-                        armAllSensors();
-                        time = 0;
-                        timer.stop();
-                    }
-                };           
-                timer = new Timer(time,taskPerformer);
-                timer.start();
-            }
-            else if (Integer.parseInt(inputBuffer) >= 1 && Integer.parseInt(inputBuffer) <= 3) {
-                simulator.getConsole().setText("HOLDING FOR " + inputBuffer + " SECONDS...");  
-                simulator.getConsolePanel().repaint();
-                
-                ActionListener taskPerformer = new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        simulator.getConsole().setText("!!! ARMED !!!");
-                        simulator.getConsolePanel().getOnLight().setOpaque(true);
-                        simulator.getConsolePanel().getOffLight().setOpaque(false);            
-                        armSensor(Integer.parseInt(inputBuffer));                
-                        time = 0;
-                        timer.stop();
-                    }
-                };           
-                timer = new Timer(time,taskPerformer);   
-                timer.start();
-            }
-            else {
-                simulator.getConsole().setText("INVALID SENSOR");
-                time = 0;
-            }
-            inputBuffer = "";
-            simulator.setState(simulator.getStandbyState());  
-            state = "command";
-        }
-        inputBuffer = "";
-        simulator.getConsolePanel().repaint();         
+     
     }
     public void cancel() {                
         if (inputBuffer.length() > 0) { 

@@ -27,6 +27,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -185,60 +186,70 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
     }
     
     public void handleSimSensorSetupPanelAdd() {
-        String buildingName = sensorSetupPanel.getBuildingTextField().getText();
-        String buildingID = sensorSetupPanel.getBuildingComboBox().getSelectedItem().toString();
-        String sectionID = sensorSetupPanel.getAreaComboBox().getSelectedItem().toString();
-        String roomID = sensorSetupPanel.getRoomComboBox().getSelectedItem().toString();
-        String sensorType = sensorSetupPanel.getSensorComboBox().getSelectedItem().toString();
-
-        Security security = getSecuritySimModel().getNullSecurity();
-        if (sensorType.equals("Motion Sensor")) { security = getSecuritySimModel().getBreakinSecurity(); }
-        else if (sensorType.equals("Temperature Sensor")) { security = getSecuritySimModel().getFireSecurity(); }
-        else if (sensorType.equals("Senior Sensor")) { security = getSecuritySimModel().getSeniorSecurity(); }        
-        
-        if (buildingID.equals("Add new...")) {            
-            Room room = getSecuritySimModel().createBuilding(buildingName);
-            security.addSecurityTo(room);
-        }
-        else if (sectionID.equals("Add new...")) {
-            Room room = getSecuritySimModel().createSection();
-            security.addSecurityTo(room);
-        }        
-        else if (roomID.equals("Add new...")) {
-            CommercialBuilding cb = getSecuritySimModel().getBuilding();
-            int sectionIndex = -1;
-
-            for (int i=0; i<cb.getSectionList().size(); i++) {
-                if (cb.getSectionList().get(i).getSectionId() == Integer.parseInt(sectionID)) {
-                    sectionIndex = i;
-                    break;
-                }
-            }
+        try {
+            String buildingName = "Building 1";
+            String buildingID = sensorSetupPanel.getBuildingComboBox().getSelectedItem().toString();
+            String sectionID = sensorSetupPanel.getAreaComboBox().getSelectedItem().toString();
+            String roomID = sensorSetupPanel.getRoomComboBox().getSelectedItem().toString();
+            String sensorType = sensorSetupPanel.getSensorComboBox().getSelectedItem().toString();
             
-            Room room = getSecuritySimModel().createRoom(sectionIndex);
-            security.addSecurityTo(room);            
-        }
-        else {
-            CommercialBuilding cb = getSecuritySimModel().getBuilding();
-            int sectionIndex = -1;
-            int roomIndex = -1;
-            Room room;
+            if (buildingID.equals("Select a building...") || sectionID.equals("Select an area... ") || 
+                    sectionID.equals("Select a room...") || sensorType.equals("Select a sensor...")) {
+                JOptionPane.showMessageDialog(sensorSetupPanel, "Please select an option for each item");
+            }
+            else {
+                Security security = getSecuritySimModel().getNullSecurity();
+                if (sensorType.equals("Motion Sensor")) { security = getSecuritySimModel().getBreakinSecurity(); }
+                else if (sensorType.equals("Temperature Sensor")) { security = getSecuritySimModel().getFireSecurity(); }
+                else if (sensorType.equals("Senior Sensor")) { security = getSecuritySimModel().getSeniorSecurity(); }        
 
-            for (int i=0; i<cb.getSectionList().size(); i++) {
-                if (cb.getSectionList().get(i).getSectionId() == Integer.parseInt(sectionID)) {
-                    for (int j=0; j<cb.getSectionList().get(i).getRoomList().size(); j++) {
-                        if (cb.getSectionList().get(i).getRoomList().get(j).getRoomId() == Integer.parseInt(roomID)) {
-                            room = cb.getSectionList().get(i).getRoomList().get(j);
-                            security.addSecurityTo(room); 
+                if (buildingID.equals("Add new...")) {            
+                    Room room = getSecuritySimModel().createBuilding(buildingName);
+                    security.addSecurityTo(room);
+                }
+                else if (sectionID.equals("Add new...") && roomID.equals("Add new...")) {
+                    Room room = getSecuritySimModel().createSection();
+                    security.addSecurityTo(room);
+                }        
+                else if (roomID.equals("Add new...")) {
+                    CommercialBuilding cb = getSecuritySimModel().getBuilding();
+                    int sectionIndex = -1;
+
+                    for (int i=0; i<cb.getSectionList().size(); i++) {
+                        if (cb.getSectionList().get(i).getSectionId() == Integer.parseInt(sectionID)) {
+                            sectionIndex = i;
                             break;
                         }
                     }
+
+                    Room room = getSecuritySimModel().createRoom(sectionIndex);
+                    security.addSecurityTo(room);            
                 }
-            }                        
-        }        
-        
-        getSecuritySimModel().reloadTableDisplayData();
-        getSecuritySimModel().fireTableDataChanged();
+                else {
+                    CommercialBuilding cb = getSecuritySimModel().getBuilding();
+                    int sectionIndex = -1;
+                    int roomIndex = -1;
+                    Room room;
+
+                    for (int i=0; i<cb.getSectionList().size(); i++) {
+                        if (cb.getSectionList().get(i).getSectionId() == Integer.parseInt(sectionID)) {
+                            for (int j=0; j<cb.getSectionList().get(i).getRoomList().size(); j++) {
+                                if (cb.getSectionList().get(i).getRoomList().get(j).getRoomId() == Integer.parseInt(roomID)) {
+                                    room = cb.getSectionList().get(i).getRoomList().get(j);
+                                    security.addSecurityTo(room); 
+                                    break;
+                                }
+                            }
+                        }
+                    }                        
+                }        
+
+                getSecuritySimModel().reloadTableDisplayData();
+                getSecuritySimModel().fireTableDataChanged();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(sensorSetupPanel, "Please select an option for each item");
+        }
     }
     
     public void handleSimSensorSetupPanelBuildingButton() {
@@ -255,7 +266,8 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         }
         else {
             CommercialBuilding building = getSecuritySimModel().getBuilding();
-            ArrayList<String> filteredSectionModel = new ArrayList<String>();            
+            ArrayList<String> filteredSectionModel = new ArrayList<String>();   
+            filteredSectionModel.add("Select an area...");
             filteredSectionModel.add("Add new...");            
             for (int i=0; i<building.getSectionList().size(); i++) {
                 filteredSectionModel.add(Integer.toString(building.getSectionList().get(i).getSectionId()));
@@ -277,6 +289,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         else {
             Section section = getSecuritySimModel().getBuilding().getSectionList().get(Integer.parseInt(areaSelected));
             ArrayList<String> filteredRoomModel = new ArrayList<String>();            
+            filteredRoomModel.add("Select a room...");
             filteredRoomModel.add("Add new...");
             for (int i=0; i<section.getRoomList().size(); i++) {
                 filteredRoomModel.add(Integer.toString(section.getRoomList().get(i).getRoomId()));
@@ -302,27 +315,33 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
     }
 
     public void handleSimArmButton() {
-        getSimulator().pushArm();
+        if (securitySimModel.getBuilding() != null)
+            getSimulator().pushArm();
     }
     
     public void handleSimDisarmButton() {
-        getSimulator().pushDisarm();
+        if (securitySimModel.getBuilding() != null)        
+            getSimulator().pushDisarm();
     }
     
     public void handleSimStatusButton() {
-        getSimulator().pushStatus();
+        if (securitySimModel.getBuilding() != null)        
+            getSimulator().pushStatus();
     }
     
     public void handleSimScheduleButton() {
-        getSimulator().pushSchedule();
+        if (securitySimModel.getBuilding() != null)        
+            getSimulator().pushSchedule();
     }    
     
     public void handleSimEmergencyButton() {
-        getSimulator().pushEmergency();
+        if (securitySimModel.getBuilding() != null)        
+            getSimulator().pushEmergency();
     }
     
     public void handleSimTestButton() {
-        getSimulator().pushTest();
+        if (securitySimModel.getBuilding() != null)        
+            getSimulator().pushTest();
     }    
     
     public void handleSimOneButton() {
