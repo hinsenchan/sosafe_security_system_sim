@@ -12,10 +12,12 @@ import Controller.SecuritySimController;
  *
  * @author hinsenchan
  */
+//custom panel screen
 public class SimCustomerPanel extends javax.swing.JPanel {
     private static SimCustomerPanel instance;
     private SecuritySimController securitySimController;
     
+    //return single instance
     public synchronized static SimCustomerPanel getInstance() {
         if (instance == null) {
             instance = new SimCustomerPanel();
@@ -268,6 +270,7 @@ public class SimCustomerPanel extends javax.swing.JPanel {
     private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
     
+    //set controller for this view
     public void setController(SecuritySimController securitySimController) {
         this.securitySimController = securitySimController;
     }

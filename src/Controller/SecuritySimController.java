@@ -38,6 +38,7 @@ import javax.swing.event.TableModelListener;
  *
  * @author hinsenchan
  */
+//controller for application
 public class SecuritySimController implements ListSelectionListener, TableModelListener{
     private SecuritySim securitySim;
     private JPanel accountLeftPanel;
@@ -56,6 +57,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
     private Simulator simulator;
     private static SecuritySimController instance;
     
+    //return single instance
     public synchronized static SecuritySimController getInstance() {
         if (instance == null) {
             instance = new SecuritySimController();            
@@ -65,6 +67,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
     
     private SecuritySimController() {}
     
+    //retrive panels from view
     public void getPanelsFromView() {
         accountLeftPanel = getSecuritySim().getAccountLeftPanel();
         accountRightPanel = getSecuritySim().getAccountRightPanel();
@@ -80,6 +83,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         controlPanel = getSecuritySim().getControlPanel();        
     }
     
+    //setup panels from view to initial state
     public void setupPanelsInView() {
         accountLeftPanel.setLayout(new BorderLayout());
         accountLeftPanel.add(billPanel, BorderLayout.CENTER);
@@ -99,6 +103,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         simulationRightPanel.add(controlPanel);         
     }
     
+    //set panels in view to use this controller
     public void setupControllerInViews() {
         billPanel.setController(this);
         customerPanel.setController(this);
@@ -108,6 +113,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         controlPanel.setController(this);
     }
     
+    //setup jtables used in the panels
     public void setupPanelTables() {
         sensorSetupPanel.getTable().setModel(getSecuritySimModel()); // set the table model using the controller
         sensorSetupPanel.getTable().getSelectionModel().addListSelectionListener(this);
@@ -118,12 +124,14 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         sensorDisplayPanel.getTable().getModel().addTableModelListener(this); // add a listener to the table model                        
     }
     
+    //setup the control panel simulator program
     public void setupSimulator() {
         setSimulator(getSecuritySimModel().getSimulator());
         getSimulator().setConsole(controlPanel.getConsoleTextField());
         getSimulator().setPanel(controlPanel);         
     }
     
+    //handle new button in customer panel
     public void handleSimCustomerPanelNew() {
         getSecuritySimModel().newModel();
         customerPanel.getContractIDTextField().setText("");
@@ -133,6 +141,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         customerPanel.getEmergencyTextField().setText(""); 
     }
         
+    //handle load button in customer panel
     public void handleSimCustomerPanelLoad() {
         getSecuritySimModel().loadModel();
         String id = getSecuritySimModel().getCustomer().getServiceContractId();
@@ -147,6 +156,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         customerPanel.getEmergencyTextField().setText(emergency); 
     }
         
+    //handle save button in customer panel
     public void handleSimCustomerPanelSave() {
         String id = customerPanel.getContractIDTextField().getText();
         String name = customerPanel.getNameTextField().getText();
@@ -157,6 +167,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         getSecuritySimModel().saveModel();
     }
     
+    //handle print button in customer panel
     public void handleSimCustomerPanelPrint() {
         Customer customer = new Customer("","","","","");
         Bills motionBill;
@@ -185,6 +196,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         billPanel.getMainTextArea().setText(output);
     }
     
+    //handle add button in sensor setup panel
     public void handleSimSensorSetupPanelAdd() {
         try {
             String buildingName = "Building 1";
@@ -252,6 +264,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         }
     }
     
+    //handle building combo box in sensor setup panel
     public void handleSimSensorSetupPanelBuildingButton() {
         String buildingSelected = sensorSetupPanel.getBuildingComboBox().getSelectedItem().toString();
         String[] areaModel = getSecuritySimModel().getAreaModel();
@@ -277,6 +290,7 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         }
     }
     
+    //handle area combo box in sensor setup panel
     public void handleSimSensorSetupPanelAreaButton() {
         String areaSelected = sensorSetupPanel.getAreaComboBox().getSelectedItem().toString();
         String[] roomModel = getSecuritySimModel().getRoomModel();
@@ -299,14 +313,17 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         }
     }
     
+    //handle value changed in jtables
     public void valueChanged(ListSelectionEvent e) {
         System.out.println("value changed fired");
     }
     
+    //handle data changed in model
     public void tableChanged(TableModelEvent e) {
         reloadComboBoxModels(); 
     }    
     
+    //reload all combo box models
     public void reloadComboBoxModels() {
         getSecuritySimModel().reloadComboBoxModels();
         sensorSetupPanel.getBuildingComboBox().setModel(new DefaultComboBoxModel(getSecuritySimModel().getBuildingModel()));                                    
@@ -314,80 +331,81 @@ public class SecuritySimController implements ListSelectionListener, TableModelL
         sensorSetupPanel.getRoomComboBox().setModel(new DefaultComboBoxModel(getSecuritySimModel().getRoomModel()));                            
     }
 
+    //handle arm button in simulator
     public void handleSimArmButton() {
         if (securitySimModel.getBuilding() != null)
             getSimulator().pushArm();
     }
-    
+    //handle disarm button in simulator
     public void handleSimDisarmButton() {
         if (securitySimModel.getBuilding() != null)        
             getSimulator().pushDisarm();
     }
-    
+    //handle status button in simulator
     public void handleSimStatusButton() {
         if (securitySimModel.getBuilding() != null)        
             getSimulator().pushStatus();
     }
-    
+    //handle schedule button in simulator
     public void handleSimScheduleButton() {
         if (securitySimModel.getBuilding() != null)        
             getSimulator().pushSchedule();
     }    
-    
+    //handle emergency button in simulator
     public void handleSimEmergencyButton() {
         if (securitySimModel.getBuilding() != null)        
             getSimulator().pushEmergency();
     }
-    
+    //handle test button in simulator
     public void handleSimTestButton() {
         if (securitySimModel.getBuilding() != null)        
             getSimulator().pushTest();
     }    
-    
+    //handle one button in simulator
     public void handleSimOneButton() {
         getSimulator().pushOne();
     }    
-    
+    //handle two button in simulator
     public void handleSimTwoButton() {
         getSimulator().pushTwo();
     }
-    
+    //handle three button in simulator
     public void handleSimThreeButton() {
         getSimulator().pushThree();
     }
-    
+    //handle four button in simulator
     public void handleSimFourButton() {
         getSimulator().pushFour();
     }
-    
+    //handle five button in simulator
     public void handleSimFiveButton() {
         getSimulator().pushFive();
     }
-    
+    //handle six button in simulator
     public void handleSimSixButton() {
         getSimulator().pushSix();
     }
-    
+    //handle seven button in simulator
     public void handleSimSevenButton() {
         getSimulator().pushSeven();
     }
-    
+    //handle eight button in simulator
     public void handleSimEightButton() {
         getSimulator().pushEight();
     }
-    
+    //handle nine button in simulator
     public void handleSimNineButton() {
         getSimulator().pushNine();
     }
-    
+    //handle star button in simulator
     public void handleSimStarButton() {
         getSimulator().pushStar();
     }
-    
+    //handle zero button in simulator
     public void handleSimZeroButton() {
         getSimulator().pushZero();
     }
-    
+    //handle pound button in simulator
     public void handleSimPoundButton() {
         getSimulator().pushPound();
     }    

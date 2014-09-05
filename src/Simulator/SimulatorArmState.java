@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author hinsenchan
  */
-
+//arm state
 public class SimulatorArmState implements SimulatorState {
     private Simulator simulator;
     private String inputBuffer = "";
@@ -23,12 +23,13 @@ public class SimulatorArmState implements SimulatorState {
     SimulatorArmState(Simulator simulator) {
         this.simulator = simulator;
     }
-    
+    //handle arm sensor request
     public void runFunction() {
         simulator.getConsole().setText("Input (0=all,1=fire,2=breakin,3=senior): _");
         simulator.getConsolePanel().repaint();
         state = "input";
     }
+    //handle confirm action
     public void confirm() {
         int breakinSec = simulator.getSecuritySimModel().getBreakinSecurity().getSensorList().size();
         int fireSec = simulator.getSecuritySimModel().getFireSecurity().getSensorList().size();
@@ -58,6 +59,7 @@ public class SimulatorArmState implements SimulatorState {
         simulator.getConsolePanel().repaint();
         simulator.setState(simulator.getStandbyState());   
     }
+    //handle cancel action
     public void cancel() {
         if (inputBuffer.length() > 0) { 
             inputBuffer = removeLastChar(inputBuffer);            
@@ -69,6 +71,7 @@ public class SimulatorArmState implements SimulatorState {
             simulator.getConsolePanel().repaint();
         }
     }
+    //handle input action
     public void input(String input) {
         if (state.equals("input")) {
             inputBuffer += input;
@@ -76,7 +79,7 @@ public class SimulatorArmState implements SimulatorState {
             simulator.getConsolePanel().repaint();
         }
     }
-    
+    //arm all sensors
     public void armAllSensors() {
         simulator.refreshSensorList();
         ArrayList<Sensor> sensorList = simulator.getSensorList();
@@ -90,7 +93,7 @@ public class SimulatorArmState implements SimulatorState {
         simulator.getSecuritySimModel().reloadTableDisplayData();
         simulator.getSecuritySimModel().fireTableDataChanged();
     }
-    
+    //arm selected sensor
     public void armSensor(int value) {
         String type = "";
         switch(value) {

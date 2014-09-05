@@ -10,15 +10,18 @@ package View;
  *
  * @author hinsenchan
  */
+//concrete director for security sim
 public class SecuritySimConcreteDirector implements SecuritySimDirector {
     private static SecuritySimConcreteDirector instance = new SecuritySimConcreteDirector();
     
+    //return single instance
     public static SecuritySimConcreteDirector getInstance() {
         return instance;
     }
     
     private SecuritySimConcreteDirector() {}
     
+    //steps to build security sim
     public SecuritySim build(SecuritySimBuilder builder) {
         builder.buildMVCInstances();
         builder.buildBillPanel();

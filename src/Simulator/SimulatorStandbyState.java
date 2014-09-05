@@ -12,23 +12,26 @@ import javax.swing.JTextField;
  *
  * @author hinsenchan
  */
-
+//standby state
 public class SimulatorStandbyState implements SimulatorState {
     private Simulator simulator;
     
     SimulatorStandbyState(Simulator simulator) {
         this.simulator = simulator;
     }
-    
+    //do nothing for standby
     public void runFunction() {
 
     }
+    //handle confirm action
     public void confirm() {
         simulator.getConsole().setText("Select a command first...");
     }
+    //handle cancel action
     public void cancel() {
         simulator.getConsole().setText("Select a command first...");
     }
+    //handle input action
     public void input(String input) {
         simulator.getConsole().setText("Select a command first...");
     }

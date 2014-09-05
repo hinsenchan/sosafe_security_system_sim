@@ -15,6 +15,7 @@ import java.util.ArrayList;
  * @author hinsenchan
  */
 
+//test state for simulator
 public class SimulatorTestState implements SimulatorState {
     private Simulator simulator;
     private String inputBuffer = "";
@@ -24,11 +25,13 @@ public class SimulatorTestState implements SimulatorState {
         this.simulator = simulator;
     }
     
+    //run test function
     public void runFunction() {
         simulator.getConsole().setText("Input (0=all,1=fire,2=breakin,3=senior): _");
         simulator.getConsolePanel().repaint();
         state = "input";
     }
+    //confirm action
     public void confirm() {
         int breakinSec = simulator.getSecuritySimModel().getBreakinSecurity().getSensorList().size();
         int fireSec = simulator.getSecuritySimModel().getFireSecurity().getSensorList().size();
@@ -58,6 +61,7 @@ public class SimulatorTestState implements SimulatorState {
         simulator.getConsolePanel().repaint();
         simulator.setState(simulator.getStandbyState());   
     }
+    //cancel action
     public void cancel() {
         if (inputBuffer.length() > 0) { 
             inputBuffer = removeLastChar(inputBuffer);            
@@ -69,6 +73,7 @@ public class SimulatorTestState implements SimulatorState {
             simulator.getConsolePanel().repaint();
         }
     }
+    //process input
     public void input(String input) {
         if (state.equals("input")) {
             inputBuffer += input;
@@ -76,7 +81,7 @@ public class SimulatorTestState implements SimulatorState {
             simulator.getConsolePanel().repaint();
         }
     }
-    
+    //handle test all sensors
     public void testAllSensors() {
         simulator.refreshSensorList();
         ArrayList<Sensor> sensorList = simulator.getSensorList();
@@ -89,7 +94,7 @@ public class SimulatorTestState implements SimulatorState {
         simulator.getSecuritySimModel().reloadTableDisplayData();
         simulator.getSecuritySimModel().fireTableDataChanged();
     }
-    
+    //handle test selected sensor
     public void testSensor(int value) {
         String type = "";
         switch(value) {

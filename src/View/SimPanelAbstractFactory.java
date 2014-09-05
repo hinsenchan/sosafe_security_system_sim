@@ -10,6 +10,7 @@ package View;
  *
  * @author hinsenchan
  */
+//abstract factory for security sim panel family
 public interface SimPanelAbstractFactory {
     public SimBillPanel createBillPanel();
     public SimControlPanel createControlPanel();

@@ -12,10 +12,12 @@ import Controller.SecuritySimController;
  *
  * @author hinsenchan
  */
+//sensor setup screen
 public class SimSensorSetupPanel extends javax.swing.JPanel {
     private static SimSensorSetupPanel instance;
     private SecuritySimController securitySimController;
     
+    //return single instance
     public synchronized static SimSensorSetupPanel getInstance() {
         if (instance == null) {
             instance = new SimSensorSetupPanel();
@@ -286,6 +288,7 @@ public class SimSensorSetupPanel extends javax.swing.JPanel {
     private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
 
+    //set controller for this view
     public void setController(SecuritySimController securitySimController) {
         this.securitySimController = securitySimController;
     }

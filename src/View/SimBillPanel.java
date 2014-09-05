@@ -12,10 +12,12 @@ import Controller.SecuritySimController;
  *
  * @author hinsenchan
  */
+//panel for bill screen
 public class SimBillPanel extends javax.swing.JPanel {
     private static SimBillPanel instance;
     private SecuritySimController securitySimController;
     
+    //return single instance
     public synchronized static SimBillPanel getInstance() {
         if (instance == null) {
             instance = new SimBillPanel();
@@ -92,6 +94,7 @@ public class SimBillPanel extends javax.swing.JPanel {
         return mainTextArea;
     }
             
+    //set controller for this view
     public void setController(SecuritySimController securitySimController) {
         this.securitySimController = securitySimController;
     }

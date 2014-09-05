@@ -10,9 +10,11 @@ package View;
  *
  * @author hinsenchan
  */
+//map panel screen
 public class SimMapPanel extends javax.swing.JPanel {
     private static SimMapPanel instance;
     
+    //return single instance
     public synchronized static SimMapPanel getInstance() {
         if (instance == null) {
             instance = new SimMapPanel();

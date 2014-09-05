@@ -32,6 +32,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author hinsenchan
  */
+//application model
 public class SecuritySimModel extends AbstractTableModel implements Serializable {
     private SecuritySimController securitySimController;
     private Customer customer;
@@ -53,6 +54,7 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
     private ArrayList<Sensor> sensorList = new ArrayList<Sensor>();;
     private static SecuritySimModel instance;
     
+    //return single instance
     public synchronized static SecuritySimModel getInstance() {
         if (instance == null) {
             instance = new SecuritySimModel();
@@ -62,6 +64,7 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
     
     private SecuritySimModel() {}
     
+    //setup combo boxes in setup panel
     public void setupComboBoxModels() {
         buildingModel = new String[] {"Add new..."};
         areaModel = new String[] {"Add new..."};
@@ -70,10 +73,12 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
             "Motion Sensor", "Senior Sensor", "Temperature Sensor"};        
     }
     
+    //setup column names used in tables
     public void setupColumnNames() {
         columnNames = new String[]{"Building", "Section", "Room", "Sensor", "Status"};
     }
     
+    //setup security objects
     public void setupSecurity() {
         nullSecurity = new NullSecurity("Null Security", 1);
         breakinSecurity = new BreakinSecurity("Breakin Security", 2);
@@ -81,6 +86,7 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
         seniorSecurity = new SeniorSecurity("Senior Security", 4);        
     }
     
+    //retrieve sensor list
     public ArrayList<Sensor> getSensorList() {
         
         sensorList.clear();
@@ -106,16 +112,19 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
          return columnNames[column];
      }    
     
+    //set current customer
     public void setCustomer(String name, String phoneNumber, String emailId,
 			String emergencyContact, String serviceContractId) {
         customer = new Customer(name, phoneNumber, emailId, 
                 emergencyContact, serviceContractId);
     }
     
+    //return customer
     public Customer getCustomer() {
         return customer;
     }
     
+    //reload data in tables
     public void reloadTableDisplayData() {
         tableDisplayData.clear();
         
@@ -147,6 +156,7 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
         }        
     }
     
+    //reload combox models
     public void reloadComboBoxModels() {        
         if (getBuilding() == null) {
             setBuildingModel(new String[]{"Add new..."});
@@ -160,15 +170,18 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
         }
     }    
     
+    //retunr building
     public CommercialBuilding getBuilding() {
         return commercialBuilding;
     }    
     
+    //create a new building
     public Room createBuilding(String name) {
         commercialBuilding = new CommercialBuilding(name);
         return createSection();
     }
     
+    //create a new section
     public Room createSection() {
         RoomCreator roomCreator = new RoomCreator();
         SectionCreator sectionCreator = new SectionCreator(roomCreator);
@@ -177,6 +190,7 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
         return commercialBuilding.getSectionList().get(sectionIndex).getRoomList().get(0);
     }
     
+    //create a new room
     public Room createRoom(int sectionIndex) {
         RoomCreator roomCreator = new RoomCreator();
         commercialBuilding.getSectionList().get(sectionIndex).getRoomList().add(roomCreator.createRoom());
@@ -184,15 +198,18 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
         return commercialBuilding.getSectionList().get(sectionIndex).getRoomList().get(roomIndex);
     }
     
+    //get data for display in table
     public ArrayList<String[]> getTableDisplayData() {
         return tableDisplayData;
     }
     
+    //create new application model
     public void newModel() {
         customer = null;
         commercialBuilding = null;
     }
     
+    //save application model
     public void saveModel() {
         try {
             FileOutputStream fileOut = new FileOutputStream("account.dat");
@@ -208,6 +225,7 @@ public class SecuritySimModel extends AbstractTableModel implements Serializable
         }
     }
     
+    //load application model
     public void loadModel() {
         try {
             FileInputStream fileIn = new FileInputStream("account.dat");

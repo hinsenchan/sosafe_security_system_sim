@@ -10,15 +10,18 @@ package Model;
  *
  * @author hinsenchan
  */
+//concrete director
 public class SecuritySimModelConcreteDirector implements SecuritySimModelDirector {
     private static SecuritySimModelConcreteDirector instance = new SecuritySimModelConcreteDirector();
     
+    //return single instance
     public static SecuritySimModelConcreteDirector getInstance() {
         return instance;
     }
     
     private SecuritySimModelConcreteDirector() {}
     
+    //build application model
     public SecuritySimModel build(SecuritySimModelBuilder builder) {
         builder.buildController();
         builder.buildComboBoxModels();

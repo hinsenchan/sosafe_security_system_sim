@@ -10,6 +10,7 @@ package Model;
  *
  * @author hinsenchan
  */
+//application model builder
 public interface SecuritySimModelBuilder {            
     public void buildController();
     public void buildSimulator();

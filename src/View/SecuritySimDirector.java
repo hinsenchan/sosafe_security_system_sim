@@ -10,6 +10,7 @@ package View;
  *
  * @author hinsenchan
  */
+//abstract director for security sim
 public interface SecuritySimDirector {
     public SecuritySim build(SecuritySimBuilder securitySimBuilder);
 }

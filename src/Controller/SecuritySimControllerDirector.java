@@ -10,6 +10,7 @@ package Controller;
  *
  * @author hinsenchan
  */
+//director for application controller
 public interface SecuritySimControllerDirector {
     public SecuritySimController build(SecuritySimControllerBuilder builder);
 }

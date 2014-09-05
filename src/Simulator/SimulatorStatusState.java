@@ -14,14 +14,14 @@ import Model.SecuritySystem.SeniorSecurity;
  *
  * @author hinsenchan
  */
-
+//status state
 public class SimulatorStatusState implements SimulatorState {
     private Simulator simulator;
     
     SimulatorStatusState(Simulator simulator) {
         this.simulator = simulator;
     }
-    
+    //run status check
     public void runFunction() {
         BreakinSecurity motionDetect = simulator.getSecuritySimModel().getBreakinSecurity();  
         FireSecurity fireDetect = simulator.getSecuritySimModel().getFireSecurity();
@@ -49,16 +49,19 @@ public class SimulatorStatusState implements SimulatorState {
         simulator.getConsole().setText(status);    
         simulator.getConsolePanel().repaint();        
     }
+    //confirm action
     public void confirm() {
         simulator.getConsole().setText("SoSafe Security Alarm System");
         simulator.getConsolePanel().repaint();
         simulator.setState(simulator.getStandbyState());   
     }
+    //cancel action
     public void cancel() {
         simulator.getConsole().setText("SoSafe Security Alarm System");
         simulator.getConsolePanel().repaint();
         simulator.setState(simulator.getStandbyState());  
     }
+    //handle input
     public void input(String input) {
         simulator.getConsole().setText("INVALID COMMAND");
         simulator.getConsolePanel().repaint();

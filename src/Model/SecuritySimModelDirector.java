@@ -10,6 +10,7 @@ package Model;
  *
  * @author hinsenchan
  */
+//application model director
 public interface SecuritySimModelDirector {
     public SecuritySimModel build(SecuritySimModelBuilder builder);    
 }

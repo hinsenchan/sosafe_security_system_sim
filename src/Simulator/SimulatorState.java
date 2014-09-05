@@ -11,6 +11,7 @@ package Simulator;
  * @author hinsenchan
  */
 
+//state interface for simulator
 public interface SimulatorState {
     public void runFunction();
     public void confirm();

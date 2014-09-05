@@ -10,6 +10,7 @@ package Controller;
  *
  * @author hinsenchan
  */
+//builder for application controller
 public interface SecuritySimControllerBuilder {
     public void buildSimView();
     public void buildSimModel();

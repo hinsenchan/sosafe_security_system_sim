@@ -16,7 +16,7 @@ import javax.swing.Timer;
  *
  * @author hinsenchan
  */
-
+//schedule state
 public class SimulatorScheduleState implements SimulatorState {
     private Simulator simulator;
     private String inputBuffer = "";
@@ -28,12 +28,13 @@ public class SimulatorScheduleState implements SimulatorState {
     SimulatorScheduleState(Simulator simulator) {
         this.simulator = simulator;
     }
-    
+    //schedule a sensor to be armed
     public void runFunction() {
         simulator.getConsole().setText("Enter delay in seconds: _");
         simulator.getConsolePanel().repaint();
         state = "timeInput";
     }
+    //confirm action
     public void confirm() {        
         if (state.equals("timeInput")) {
             if (inputBuffer.length() > 0) {
@@ -115,6 +116,7 @@ public class SimulatorScheduleState implements SimulatorState {
         }
      
     }
+    //cancel action
     public void cancel() {                
         if (inputBuffer.length() > 0) { 
             inputBuffer = removeLastChar(inputBuffer);            
@@ -132,6 +134,7 @@ public class SimulatorScheduleState implements SimulatorState {
             state = "command";
         }
     }
+    //handle input action
     public void input(String input) {
         if (state.equals("input")) {
             inputBuffer += input;
@@ -148,7 +151,7 @@ public class SimulatorScheduleState implements SimulatorState {
             simulator.getConsolePanel().repaint();             
         }
     }
-    
+    //arm all sensors
     public void armAllSensors() {
         simulator.refreshSensorList();
         ArrayList<Sensor> sensorList = simulator.getSensorList();
@@ -162,7 +165,7 @@ public class SimulatorScheduleState implements SimulatorState {
         simulator.getSecuritySimModel().reloadTableDisplayData();
         simulator.getSecuritySimModel().fireTableDataChanged();
     }
-    
+    //arm selected sensor
     public void armSensor(int value) {
         String type = "";
         switch(value) {

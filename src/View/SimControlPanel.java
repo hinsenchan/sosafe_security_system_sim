@@ -12,10 +12,12 @@ import Controller.SecuritySimController;
  *
  * @author hinsenchan
  */
+//control panel display
 public class SimControlPanel extends javax.swing.JPanel {
     private static SimControlPanel instance;
     private SecuritySimController securitySimController;
     
+    //return single instance
     public synchronized static SimControlPanel getInstance() {
         if (instance == null) {
             instance = new SimControlPanel();
@@ -551,6 +553,7 @@ public class SimControlPanel extends javax.swing.JPanel {
     private javax.swing.JButton zeroButton;
     // End of variables declaration//GEN-END:variables
 
+    //set controller for this view
     public void setController(SecuritySimController securitySimController) {
         this.securitySimController = securitySimController;
     }     

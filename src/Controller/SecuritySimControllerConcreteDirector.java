@@ -10,15 +10,18 @@ package Controller;
  *
  * @author hinsenchan
  */
+//concrete director
 public class SecuritySimControllerConcreteDirector implements SecuritySimControllerDirector {
     private static SecuritySimControllerConcreteDirector instance = new SecuritySimControllerConcreteDirector();
     
+    //return single instance
     public static SecuritySimControllerConcreteDirector getInstance() {
         return instance;
     }
     
     private SecuritySimControllerConcreteDirector() {}
     
+    //build application controller
     public SecuritySimController build(SecuritySimControllerBuilder builder) {
         builder.buildSimView();
         builder.buildSimModel();

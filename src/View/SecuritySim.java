@@ -21,6 +21,7 @@ import Model.SecuritySimModelDirector;
  *
  * @author hinsenchan
  */
+//View for the application
 public class SecuritySim extends javax.swing.JFrame {
     private SimBillPanel billPanel;
     private SimCustomerPanel customerPanel;
@@ -32,6 +33,7 @@ public class SecuritySim extends javax.swing.JFrame {
     private SimPanelAbstractFactory panelFactory;
     private static SecuritySim instance;
     
+    //return single instance of this view
     public synchronized static SecuritySim getInstance() {
         if (instance == null) {
             instance = new SecuritySim();
@@ -46,6 +48,7 @@ public class SecuritySim extends javax.swing.JFrame {
         initComponents();
     }
     
+    //create panels for this view
     public void createPanels() {
         panelFactory = SimPanelConcreteFactory.getInstance();
         setBillPanel(panelFactory.createBillPanel());
@@ -56,6 +59,7 @@ public class SecuritySim extends javax.swing.JFrame {
         setControlPanel(panelFactory.createControlPanel());          
     }
     
+    //set the controller for this view
     public void setupController() {
         setSecuritySimController(SecuritySimController.getInstance());
     }

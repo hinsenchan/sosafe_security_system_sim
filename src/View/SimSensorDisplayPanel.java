@@ -12,10 +12,12 @@ import Controller.SecuritySimController;
  *
  * @author hinsenchan
  */
+//senosr display screen
 public class SimSensorDisplayPanel extends javax.swing.JPanel {
     private static SimSensorDisplayPanel instance;
     private SecuritySimController securitySimController;
     
+    //return single instance
     public synchronized static SimSensorDisplayPanel getInstance() {
         if (instance == null) {
             instance = new SimSensorDisplayPanel();
@@ -113,6 +115,7 @@ public class SimSensorDisplayPanel extends javax.swing.JPanel {
     private javax.swing.JTable displayTable;
     // End of variables declaration//GEN-END:variables
     
+    //set controller for this view
     public void setController(SecuritySimController securitySimController) {
         this.securitySimController = securitySimController;
     }    

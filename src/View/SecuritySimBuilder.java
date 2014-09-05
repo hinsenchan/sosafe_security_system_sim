@@ -10,6 +10,7 @@ package View;
  *
  * @author hinsenchan
  */
+//builder for securitysim
 public interface SecuritySimBuilder {
     public void buildMVCInstances();
     public void buildMVCStates();
