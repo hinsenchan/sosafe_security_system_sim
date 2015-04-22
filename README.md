@@ -2,9 +2,7 @@
 
 The SoSafe Home Security Simulator is a **Java** desktop application built using the **"Gang of Four" Design Patterns**. It emulates a microprocessor-based security systems for homes and large commercial properties. The system can be installed in a large commercial building to monitor one or more areas in the building. A commercial building can be divided into sections, where each section is divided into rooms.
 
-![simulator1](https://github.com/hinsenchan/sosafe_security_system_sim/blob/master/readme/img23_abstractFamPanel.png)
-![simulator2](https://github.com/hinsenchan/sosafe_security_system_sim/blob/master/readme/img24_abstractFamPanel.png)
-![simulator3](https://github.com/hinsenchan/sosafe_security_system_sim/blob/master/readme/img25_abstractFamPanel.png)
+![sosafe_sec_sys_sim_collage](https://github.com/hinsenchan/sosafe_security_system_sim/blob/master/readme/sosafe_sec_sys_sim_collage.png)
 
 # Application Features
 
